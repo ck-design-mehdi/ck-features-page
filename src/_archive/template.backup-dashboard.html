@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClickUp Features</title>
+<meta name="description" content="Every ClickUp feature in one place. Search, filter by plan and hide everything else.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&family=Inter:wght@400;500;600&family=Sometype+Mono:wght@500&display=swap" rel="stylesheet">
+__DEVTOOLS__
+<style>
+/*__BASECSS__*/
+
+/* ------------------------------------------------------------------ */
+/* Page                                                                */
+/* ------------------------------------------------------------------ */
+:root { color-scheme: light; --nav-h: 64px; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 72px); }
+body { background: #FFFFFF; overflow-x: hidden; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+input { font: inherit; color: inherit; }
+.ico { width: 20px; height: 20px; flex: none; }
+.ico-16 { width: 16px; height: 16px; flex: none; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 2px solid var(--purple); outline-offset: 2px; border-radius: 8px; }
+
+/* Nav */
+.nav {
+  position: sticky; top: 0; z-index: 40; height: var(--nav-h);
+  background: rgba(255,255,255,.92); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  border-bottom: 1px solid transparent; transition: border-color 200ms var(--ease-out);
+}
+.nav.is-scrolled { border-bottom-color: var(--line); }
+.nav__inner { height: 100%; max-width: 1280px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; gap: 40px; }
+.nav__logo { display: flex; align-items: center; }
+.nav__logo svg { width: 104px; height: auto; display: block; }
+.nav__links { display: flex; gap: 28px; flex: 1; }
+.nav__links a { text-decoration: none; color: var(--gray-900); }
+.nav__links a[aria-current] { color: var(--purple); }
+.nav__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.nav__actions .link { text-decoration: none; padding: 10px 12px; }
+@media (max-width: 1080px) { .nav__links { display: none; } }
+@media (max-width: 560px) { .nav__inner { padding: 0 16px; gap: 16px; } .nav__actions .link, .nav__actions .btn--secondary { display: none; } }
+
+/* Hero */
+.hero { padding-top: 96px; }
+.hero h1 { max-width: 980px; }
+.search {
+  width: min(600px, 100%); display: flex; align-items: center; gap: 12px; padding: 0 8px 0 18px; height: 56px;
+  background: #FFFFFF; border-radius: 16px; box-shadow: var(--shadow-component); color: var(--gray-500);
+  transition: box-shadow 200ms var(--ease-out);
+}
+.search:focus-within { box-shadow: var(--shadow-component), 0 0 0 4px var(--purple-light); }
+.search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--gray-900); }
+.search input::placeholder { color: var(--gray-500); }
+.search input::-webkit-search-cancel-button { display: none; }
+.kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 28px; padding: 0 8px; border-radius: 8px; background: var(--gray-100); color: var(--gray-700); }
+.search__clear { display: none; width: 32px; height: 32px; border-radius: 8px; align-items: center; justify-content: center; color: var(--gray-700); }
+.search.has-value .search__clear { display: inline-flex; }
+.search.has-value .kbd { display: none; }
+.hero__tools { display: flex; flex-direction: column; align-items: center; gap: 24px; width: 100%; }
+
+/* Plan filter: pills */
+.plans { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.pill {
+  display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 999px;
+  background: var(--gray-100); color: var(--gray-900);
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.pill:active { transform: scale(0.97); }
+.pill[aria-pressed="true"] { background: var(--gray-900); color: #FFFFFF; }
+@media (hover: hover) and (pointer: fine) { .pill[aria-pressed="false"]:hover { background: var(--line); } }
+
+/* ------------------------------------------------------------------ */
+/* Open grid (shared): lines drawn per cell so they survive filtering  */
+/* ------------------------------------------------------------------ */
+.og { display: grid; position: relative; }
+.og > .cell { position: relative; min-width: 0; }
+.og > .cell.c-in { border-left: 1px solid var(--line); }
+.og .ln { position: absolute; left: 0; right: 0; height: 1px; background: var(--line); pointer-events: none; }
+.og .ln--t { top: 0; } .og .ln--b { bottom: -1px; }
+.og .c-first .ln { background: linear-gradient(in oklch 90deg, transparent, #E8E8E8 70%); }
+.og .c-last .ln  { background: linear-gradient(in oklch 90deg, #E8E8E8 30%, transparent); }
+.og .c-first.c-last .ln { background: linear-gradient(in oklch 90deg, transparent, #E8E8E8 25%, #E8E8E8 75%, transparent); }
+.og .mk {
+  position: absolute; left: -6px; width: 11px; height: 11px; z-index: 2; pointer-events: none;
+  background: #FFFFFF url("__MARKER__") center / 10px 10px no-repeat;
+}
+.og .mk--t { top: -5px; } .og .mk--b { bottom: -6px; }
+
+
+/* Hero dashboard: real ClickUp Dashboard cards on a gray card */
+.dash-card { padding: 40px; }
+.dash { background: transparent; box-shadow: none; border-radius: 0; display: grid; grid-template-columns: 1.35fr 1fr; gap: 16px; }
+.dash__col { display: grid; gap: 16px; }
+.dc { background: #FFFFFF; border-radius: 12px; box-shadow: var(--shadow-component); display: flex; flex-direction: column; min-width: 0; text-align: left; }
+.dc__head { padding: 16px 16px 12px; display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid var(--p-line); }
+.dc__title { display: flex; align-items: center; justify-content: space-between; font-weight: 600; font-size: 15px; }
+.dc__more { color: var(--p-meta); letter-spacing: 1px; line-height: 1; }
+.dc__meta { display: flex; align-items: center; gap: 6px; color: var(--p-meta); font-size: 13px; }
+.dc__meta svg { width: 14px; height: 14px; }
+.dc__metrics { display: flex; padding: 14px 16px 4px; }
+.dc__metric { display: flex; flex-direction: column; gap: 2px; padding-right: 16px; margin-right: 16px; border-right: 1px solid var(--p-line); }
+.dc__metric:last-child { border-right: 0; margin-right: 0; }
+.dc__metric span { color: var(--p-meta); font-size: 13px; }
+.dc__metric b { font-weight: 500; font-size: 15px; font-variant-numeric: tabular-nums; }
+.dc__body { padding: 20px 16px 16px; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; }
+
+/* vertical bar chart */
+.bars { position: relative; display: grid; grid-template-columns: 28px 1fr; gap: 8px; flex: 1; min-height: 220px; }
+.bars__y { position: relative; color: var(--p-meta); font-size: 11px; text-align: right; margin-bottom: 22px; }
+.bars__y span { position: absolute; right: 0; transform: translateY(50%); line-height: 1; }
+.bars__plot { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; align-items: end; margin-bottom: 22px; }
+.bars__plot .gl { position: absolute; left: 0; right: 0; height: 1px; background: #F0F0F0; transform: translateY(50%); }
+.bar { position: relative; z-index: 1; height: 100%; text-decoration: none; color: var(--p-text); display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+.bar i { width: 100%; max-width: 36px; border-radius: 4px 4px 0 0; background: #B38CFF; transition: background-color 160ms var(--ease-out); }
+.bar small { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); text-align: center; color: var(--p-meta); font-size: 11px; white-space: nowrap; }
+.bar b { position: absolute; left: 50%; transform: translate(-50%, 4px); opacity: 0; font-size: 12px; font-weight: 600; transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out); pointer-events: none; }
+@media (hover: hover) and (pointer: fine) { .bar:hover i { background: #6647F0; } .bar:hover b { opacity: 1; transform: translate(-50%, 0); } }
+
+/* battery chart */
+.battery { display: flex; height: 28px; border-radius: 6px; overflow: hidden; gap: 2px; }
+.battery span { display: block; height: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; padding-top: 12px; color: var(--p-meta); font-size: 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 8px; height: 8px; border-radius: 2px; }
+
+/* horizontal bars (plans) */
+.hbars { display: flex; flex-direction: column; gap: 6px; }
+.hbar { text-align: left; display: grid; grid-template-columns: 92px 1fr 32px; align-items: center; gap: 10px; font-size: 13px; padding: 2px 4px; margin: 0 -4px; border-radius: 6px; transition: background-color 160ms var(--ease-out); }
+.hbar span { color: var(--p-meta); }
+.hbar em { font-style: normal; text-align: right; font-variant-numeric: tabular-nums; }
+.hbar .track { height: 8px; border-radius: 4px; background: #F0F0F0; overflow: hidden; }
+.hbar .track i { display: block; height: 100%; border-radius: 4px; background: #B38CFF; transition: width 480ms var(--ease-in-out), background-color 160ms var(--ease-out); }
+.hbar[aria-pressed="true"] span { color: var(--p-text); font-weight: 600; }
+.hbar[aria-pressed="true"] .track i { background: #6647F0; }
+@media (hover: hover) and (pointer: fine) { .hbar:hover { background: #F8F9FA; } .hbar:hover .track i { background: #6647F0; } }
+.dc--link { transition: transform 200ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .dc--link:hover { transform: translateY(-2px); } }
+@media (max-width: 960px) { .dash { grid-template-columns: 1fr; } .dash-card { padding: 16px; } }
+@media (max-width: 560px) { .bars { min-height: 180px; } .bars__plot { gap: 8px; } .bar:nth-of-type(n+7) { display: none; } }
+
+/* Directory */
+.dir { grid-template-columns: repeat(5, 1fr); }
+.dir .cell { padding: 28px 16px 32px; display: flex; flex-direction: column; gap: 16px; }
+.dir .mono-xs { padding: 0 8px; }
+.dir ul { display: flex; flex-direction: column; gap: 2px; }
+.dir a {
+  display: flex; align-items: center; gap: 10px; padding: 7px 8px; border-radius: 8px; text-decoration: none; color: var(--gray-900);
+  transition: background-color 160ms var(--ease-out);
+}
+.dir a .ico-16 { color: var(--gray-700); }
+.dir a .n { flex: 1; min-width: 0; }
+.dir a .c { color: var(--gray-500); font-variant-numeric: tabular-nums; }
+.dir a.is-empty { color: var(--gray-300); pointer-events: none; }
+.dir a.is-empty .ico-16, .dir a.is-empty .c { color: var(--gray-300); }
+@media (hover: hover) and (pointer: fine) { .dir a:hover { background: var(--gray-50); } }
+@media (max-width: 1180px) { .dir { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 760px)  { .dir { grid-template-columns: 1fr; } .dir .cell { padding: 24px 0 28px; } }
+
+/* ------------------------------------------------------------------ */
+/* Coming soon: a real List view inside a gray card                   */
+/* ------------------------------------------------------------------ */
+.soon-card { padding: 56px 56px 0; position: relative; }
+.soon-card__frame { position: relative; max-height: 640px; overflow: hidden; transition: max-height 480ms var(--ease-in-out); }
+.soon-card:not(.is-open) .soon-card__frame { -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%); mask-image: linear-gradient(to bottom, #000 62%, transparent 100%); }
+.soon-card__more { display: flex; justify-content: center; padding: 8px 0 40px; position: relative; z-index: 1; }
+.soon-card:not(.is-open) .soon-card__more { margin-top: -72px; }
+@media (max-width: 760px) { .soon-card { padding: 24px 0 0 16px; } .soon-card__frame { max-height: 520px; } }
+
+.product {
+  --p-text: #202020; --p-meta: #838383; --p-line: #F0F0F0;
+  --s-building: #0091FF; --s-review: #F76808; --s-beta: #FFC53D; --s-rolling: #30A46C;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", system-ui, sans-serif;
+  letter-spacing: 0; color: var(--p-text); font-size: 14px; line-height: 20px;
+  background: #FFFFFF; border-radius: 12px 12px 0 0; box-shadow: var(--shadow-component);
+}
+.lv__bar { display: flex; align-items: center; gap: 10px; padding: 14px 20px 0; }
+.lv__space { width: 20px; height: 20px; border-radius: 6px; background: var(--purple); color: #FFFFFF; display: grid; place-items: center; }
+.lv__space svg { width: 12px; height: 12px; }
+.lv__title { font-weight: 600; font-size: 15px; }
+.lv__meta { margin-left: auto; color: var(--p-meta); font-size: 13px; }
+.lv__tabs { display: flex; gap: 18px; padding: 10px 20px 0; border-bottom: 1px solid var(--p-line); }
+.lv__tab { display: flex; align-items: center; gap: 6px; padding: 6px 0 9px; color: var(--p-meta); font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.lv__tab.is-on { color: var(--p-text); border-bottom-color: var(--p-text); }
+.lv__tab svg { width: 16px; height: 16px; }
+.lv__head { display: grid; grid-template-columns: minmax(0, 1fr) 160px 96px; gap: 16px; padding: 12px 20px 8px 60px; color: var(--p-meta); font-size: 12px; }
+.lv__group { padding: 10px 20px 4px; }
+.lv__ghead { display: flex; align-items: center; gap: 8px; padding: 6px 0 8px; }
+.st { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 8px; border-radius: 6px; color: #FFFFFF; font-size: 11.5px; font-weight: 600; text-transform: uppercase; }
+.st .dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; }
+.st--building { background: var(--s-building); } .st--in_review { background: var(--s-review); }
+.st--in_beta { background: var(--s-beta); color: #202020; } .st--rolling_out { background: var(--s-rolling); }
+.lv__count { color: var(--p-meta); }
+.lv__row {
+  display: grid; grid-template-columns: 20px minmax(0, 1fr) 160px 96px; gap: 16px; align-items: center; width: 100%;
+  min-height: 40px; padding: 0 0 0 20px; border-top: 1px solid var(--p-line); text-align: left;
+  transition: background-color 120ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) { .lv__row:hover { background: #F8F9FA; } }
+.lv__ring { width: 14px; height: 14px; border-radius: 50%; border: 2px dashed currentColor; }
+.lv__row[data-s="building"] .lv__ring { color: var(--s-building); }
+.lv__row[data-s="in_review"] .lv__ring { color: var(--s-review); border-style: solid; }
+.lv__row[data-s="in_beta"] .lv__ring { color: var(--s-beta); border-style: solid; }
+.lv__row[data-s="rolling_out"] .lv__ring { color: var(--s-rolling); border-style: solid; }
+.lv__name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lv__name small { color: var(--p-meta); font-size: 13px; margin-left: 6px; }
+.lv__tag { justify-self: start; max-width: 100%; padding: 1px 8px; border-radius: 6px; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lv__tag.t0 { background: var(--purple-light); color: var(--purple); } .lv__tag.t1 { background: var(--blue-light); color: #0091FF; }
+.lv__tag.t2 { background: var(--pink-light); color: #FF02F0; } .lv__tag.t3 { background: var(--orange-light); color: #FC6D2D; }
+.lv__date { color: var(--p-meta); font-size: 13px; font-variant-numeric: tabular-nums; }
+.lv__add { display: flex; align-items: center; gap: 8px; min-height: 36px; padding-left: 20px; border-top: 1px solid var(--p-line); color: var(--p-meta); }
+.lv__add svg { width: 14px; height: 14px; }
+@media (max-width: 760px) {
+  .lv__head { display: none; }
+  .lv__row { grid-template-columns: 20px minmax(0, 1fr); padding-right: 16px; }
+  .lv__tag, .lv__date { display: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Catalog                                                             */
+/* ------------------------------------------------------------------ */
+.toolbar {
+  position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 30; background: rgba(255,255,255,.94);
+  backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  border-bottom: 1px solid var(--line);
+  transform: translateY(-100%); opacity: 0; pointer-events: none;
+  transition: transform 260ms var(--ease-out), opacity 200ms var(--ease-out);
+}
+.toolbar.is-on { transform: none; opacity: 1; pointer-events: auto; }
+.toolbar__inner { max-width: 1280px; margin: 0 auto; padding: 10px 32px; display: flex; align-items: center; gap: 16px; }
+.toolbar .search { height: 44px; width: 360px; flex: none; border-radius: 12px; padding-left: 14px; }
+.toolbar .plans { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; justify-content: flex-start; }
+.toolbar .pill { height: 32px; white-space: nowrap; }
+.toolbar__count { margin-left: auto; color: var(--gray-500); white-space: nowrap; }
+@media (max-width: 900px) { .toolbar__inner { padding: 8px 16px; } .toolbar .search { width: auto; flex: 1; } .toolbar .plans, .toolbar__count { display: none; } }
+
+.catalog .section__content { margin-top: 60px; }
+.cat:last-child { padding-bottom: 0; }
+.cat { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 48px; padding-bottom: 96px; }
+.cat[hidden] { display: none; }
+.cat__side { position: relative; }
+.cat__sticky { position: sticky; top: calc(var(--nav-h) + 96px); display: flex; flex-direction: column; gap: 24px; padding-top: 28px; }
+.cat__sticky .block__text { gap: 12px; }
+.cat__tile { width: 40px; height: 40px; border-radius: 12px; background: var(--gray-50); color: var(--gray-900); display: grid; place-items: center; }
+.cat__count { color: var(--gray-500); font-variant-numeric: tabular-nums; }
+.cat__desc { color: var(--gray-700); }
+.feats { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 1280px) { .feats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 960px)  { .cat { grid-template-columns: 1fr; gap: 24px; padding-bottom: 64px; } .cat__sticky { position: static; padding-top: 0; } }
+@media (max-width: 640px)  { .feats { grid-template-columns: 1fr; } }
+
+.feat { display: flex; flex-direction: column; gap: 16px; width: 100%; height: 100%; padding: 28px 24px 24px; text-align: left; transition: background-color 160ms var(--ease-out); }
+.feat__icon { width: 36px; height: 36px; border-radius: 10px; background: var(--gray-50); color: var(--gray-900); display: grid; place-items: center; transition: background-color 160ms var(--ease-out); }
+.feat__body { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.feat__surface { color: var(--gray-500); }
+.feat__name { color: var(--gray-900); }
+.feat__desc { color: var(--gray-700); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.feat__foot { display: flex; align-items: center; gap: 6px; min-height: 22px; }
+.feat__foot .arrow { margin-left: auto; color: var(--gray-300); transform: translateX(-4px); opacity: 0; transition: transform 200ms var(--ease-out), opacity 200ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .feat:hover { background: var(--gray-50); }
+  .feat:hover .feat__icon { background: #FFFFFF; }
+  .feat:hover .arrow { transform: none; opacity: 1; color: var(--gray-900); }
+}
+.tag--accent { background: var(--purple-light); color: var(--purple); }
+.tag--plain { background: transparent; color: var(--gray-500); padding: 0; }
+mark { background: var(--purple-light); color: inherit; border-radius: 3px; }
+.feats .cell.c-in { border-left-color: var(--line); }
+@media (max-width: 640px) { .feat { padding: 24px 0; } }
+
+.empty { padding: 40px 0 120px; }
+.empty[hidden] { display: none; }
+
+/* ------------------------------------------------------------------ */
+/* CTA: Build it with Brain (AI highlight, white background)          */
+/* ------------------------------------------------------------------ */
+.cta .section__content { display: flex; flex-direction: column; align-items: center; gap: 40px; }
+.composer.ai-highlight::before { opacity: .55; filter: blur(24px); }
+.composer { width: min(720px, 100%); padding: 20px 20px 14px; display: flex; flex-direction: column; gap: 20px; text-align: left; }
+.composer__text { min-height: 56px; color: var(--gray-900); }
+.composer__text .caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 1px; vertical-align: -3px; background: var(--gray-900); animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.composer__bar { display: flex; align-items: center; gap: 8px; color: var(--gray-700); }
+.composer__bar .tag { height: 28px; }
+.composer__send { margin-left: auto; width: 36px; height: 36px; border-radius: 12px; background: var(--gray-900); color: #FFFFFF; display: grid; place-items: center; }
+.composer__send svg { width: 18px; height: 18px; }
+.cta__actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+/* Footer */
+.footer { border-top: 1px solid var(--line); }
+.footer__inner { max-width: 1120px; margin: 0 auto; padding: 40px 0; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; color: var(--gray-500); }
+.footer__inner svg { width: 88px; height: auto; }
+.footer__inner nav { display: flex; gap: 20px; margin-left: auto; flex-wrap: wrap; }
+.footer__inner a { text-decoration: none; color: var(--gray-700); }
+@media (max-width: 1480px) { .footer__inner { margin: 0 64px; } }
+@media (max-width: 760px)  { .footer__inner { margin: 0 16px; } }
+
+/* ------------------------------------------------------------------ */
+/* Detail sheet                                                        */
+/* ------------------------------------------------------------------ */
+.scrim { position: fixed; inset: 0; z-index: 50; background: rgba(32,32,32,.24); opacity: 0; pointer-events: none; transition: opacity 240ms var(--ease-out); }
+.scrim.is-on { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: fixed; z-index: 60; top: 12px; right: 12px; bottom: 12px; width: min(600px, calc(100vw - 24px));
+  background: #FFFFFF; border-radius: 24px; box-shadow: var(--shadow-component), 0 24px 48px -12px rgba(79,79,79,.18);
+  display: flex; flex-direction: column; overflow: hidden;
+  transform: translateX(calc(100% + 24px)); transition: transform 320ms var(--ease-out);
+}
+.sheet.is-on { transform: none; }
+.sheet__top { display: flex; align-items: center; gap: 8px; padding: 16px 16px 16px 28px; border-bottom: 1px solid var(--line); }
+.sheet__crumb { display: flex; align-items: center; gap: 8px; min-width: 0; color: var(--gray-500); }
+.sheet__crumb b { color: var(--gray-900); font-weight: 500; }
+.sheet__crumb span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sheet__nav { margin-left: auto; display: flex; align-items: center; gap: 4px; color: var(--gray-700); }
+.sheet__nav .pos { padding: 0 6px; color: var(--gray-500); font-variant-numeric: tabular-nums; }
+.ibtn { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; color: var(--gray-700); transition: background-color 160ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .ibtn:hover { background: var(--gray-100); color: var(--gray-900); } }
+.ibtn:disabled { opacity: .35; pointer-events: none; }
+.sheet__body { flex: 1; overflow-y: auto; padding: 36px 28px 40px; display: flex; flex-direction: column; gap: 40px; overscroll-behavior: contain; }
+.sheet__head { display: flex; flex-direction: column; gap: 24px; }
+.sheet__head .block__text p { color: var(--gray-700); }
+.sheet__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.sheet__summary { color: var(--gray-700); }
+.sheet__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.sec { display: flex; flex-direction: column; }
+.sec .eyebrow-separator {
+  display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line);
+  font: 500 14px/18px "Sometype Mono", monospace; text-transform: uppercase; letter-spacing: 0; color: var(--gray-500);
+}
+.matrix { display: grid; grid-template-columns: repeat(5, 1fr); }
+.matrix > div { padding: 16px 12px 16px 0; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid var(--line); }
+.matrix .pl { color: var(--gray-500); }
+.matrix .v { display: flex; align-items: center; gap: 6px; color: var(--gray-900); }
+.matrix .v.no { color: var(--gray-300); }
+.matrix .v .ok { color: var(--green); }
+.matrix .lim { color: var(--gray-500); }
+.matrix .is-cur .pl { color: var(--purple); }
+@media (max-width: 560px) { .matrix { grid-template-columns: repeat(2, 1fr); } }
+.extra { display: flex; gap: 16px; padding-top: 12px; color: var(--gray-500); }
+.rows { display: flex; flex-direction: column; }
+.rows button {
+  display: flex; align-items: center; gap: 12px; padding: 12px 8px; margin: 0 -8px; border-radius: 10px; text-align: left; color: var(--gray-900);
+  transition: background-color 160ms var(--ease-out);
+}
+.rows button + button { box-shadow: 0 -1px 0 var(--gray-100); }
+.rows button .ico-16 { color: var(--gray-700); }
+.rows button .n { flex: 1; min-width: 0; }
+.rows button .chev { color: var(--gray-300); }
+@media (hover: hover) and (pointer: fine) { .rows button:hover { background: var(--gray-50); } }
+.state { display: flex; align-items: center; gap: 12px; padding-top: 16px; }
+@media (max-width: 560px) { .sheet { top: auto; right: 0; bottom: 0; left: 0; width: 100%; height: 88vh; border-radius: 24px 24px 0 0; transform: translateY(100%); } .sheet.is-on { transform: none; } .sheet__body { padding: 28px 16px 32px; } .sheet__top { padding-left: 16px; } }
+
+
+/* Responsive type: step down within the Core 4.0 scale */
+@media (max-width: 1100px) {
+  .display-3xl { font-size: 60px; line-height: 1.10; letter-spacing: -0.035em; }
+}
+@media (max-width: 760px) {
+  .display-3xl { font-size: 44px; line-height: 1.10; letter-spacing: -0.035em; }
+  .display-xl  { font-size: 30px; line-height: 1.20; letter-spacing: -0.03em; }
+  .hero { padding-top: 48px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .composer__text .caret { animation: none; } }
+</style>
+</head>
+<body>
+__SPRITE__
+
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="https://clickup.com" aria-label="ClickUp home">__LOGO__</a>
+    <nav class="nav__links text-sm medium" aria-label="Primary">
+      <a href="https://clickup.com/brain">Brain AI</a>
+      <a href="https://clickup.com/features" aria-current="page">Product</a>
+      <a href="https://clickup.com/teams">Solutions</a>
+      <a href="https://clickup.com/resources">Learn</a>
+      <a href="https://clickup.com/pricing">Pricing</a>
+      <a href="https://clickup.com/enterprise">Enterprise</a>
+    </nav>
+    <div class="nav__actions">
+      <a class="link text-sm medium" href="https://clickup.com/demo">Get a demo</a>
+      <a class="btn btn--secondary btn--sm button-sm" href="https://app.clickup.com/login">Log in</a>
+      <a class="btn btn--sm button-sm" href="https://app.clickup.com/signup">Sign up</a>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar" id="toolbar" aria-hidden="true">
+  <div class="toolbar__inner">
+    <label class="search" data-search>
+      <svg class="ico"><use href="#cu3-icon-search"/></svg>
+      <span class="vh">Search features</span>
+      <input type="search" placeholder="Search features" autocomplete="off" tabindex="-1">
+      <button class="search__clear" type="button" aria-label="Clear search" tabindex="-1"><svg class="ico-16"><use href="#cu3-icon-closeSmall"/></svg></button>
+    </label>
+    <div class="plans" data-plans role="group" aria-label="Filter by plan"></div>
+    <span class="toolbar__count text-sm" data-count></span>
+  </div>
+</div>
+
+<main>
+  <!-- Hero ---------------------------------------------------------- -->
+  <section class="section hero" id="top">
+    <div class="section__inner">
+      <header class="section__header block">
+        <span class="mono-sm eyebrow">Features</span>
+        <div class="block__text">
+          <h1 class="display-3xl"><span class="t-dark">All the features,</span><br><span class="display-gradient">without all the mess.</span></h1>
+          <p class="text-lg subtitle">Choose what you want and hide everything else.</p>
+        </div>
+        <div class="hero__tools" id="heroTools">
+          <label class="search" data-search>
+            <svg class="ico"><use href="#cu3-icon-search"/></svg>
+            <span class="vh">Search features</span>
+            <input type="search" id="q" placeholder="Search __TOTAL__ features" autocomplete="off">
+            <button class="search__clear" type="button" aria-label="Clear search"><svg class="ico-16"><use href="#cu3-icon-closeSmall"/></svg></button>
+            <span class="kbd text-xs medium" aria-hidden="true">⌘K</span>
+          </label>
+          <div class="plans text-sm medium" data-plans role="group" aria-label="Filter by plan"></div>
+        </div>
+      </header>
+
+      <div class="section__content">
+        <div class="card dash-card">
+          <div class="dash product" id="dash"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Directory ----------------------------------------------------- -->
+  <section class="section" id="directory">
+    <div class="section__inner">
+      <header class="section__header block">
+        <span class="mono-sm eyebrow">Browse by area</span>
+        <div class="block__text">
+          <h2 class="display-xl"><span class="t-dark">__AREAS__ areas, one workspace.</span><br><span class="t-gray">Jump straight to what you need.</span></h2>
+        </div>
+      </header>
+      <div class="section__content">
+        <nav class="og dir" id="dir" aria-label="Feature categories"></nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming soon --------------------------------------------------- -->
+  <section class="section" id="coming-soon">
+    <div class="section__inner">
+      <header class="section__header block">
+        <span class="mono-sm eyebrow">Next up</span>
+        <div class="block__text">
+          <h2 class="display-xl"><span class="t-dark">What our teams are building.</span><br><span class="t-gray">__SOON__ features on the way.</span></h2>
+          <p class="text-lg subtitle">Names, dates and plans may change before launch.</p>
+        </div>
+      </header>
+      <div class="section__content">
+        <div class="card soon-card" id="soonCard">
+          <div class="soon-card__frame">
+            <div class="product" id="soonList"></div>
+          </div>
+          <div class="soon-card__more">
+            <button class="btn btn--secondary button-md" type="button" id="soonToggle" aria-expanded="false">Show all __SOON__</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog ------------------------------------------------------- -->
+  <section class="section catalog" id="catalog" aria-labelledby="catalogTitle">
+    <div class="section__inner">
+      <header class="section__header block">
+        <span class="mono-sm eyebrow">Every feature</span>
+        <div class="block__text">
+          <h2 class="display-xl" id="catalogTitle"><span class="t-dark"><span data-count-n>__TOTAL__</span> features, one catalog.</span><br><span class="t-gray">Open any card for plans and details.</span></h2>
+        </div>
+      </header>
+      <div class="section__content" id="cats"></div>
+    </div>
+    <div class="section__inner empty" id="empty" hidden>
+      <header class="section__header block">
+        <span class="mono-sm eyebrow gray">No match</span>
+        <div class="block__text">
+          <h2 class="display-md"><span class="t-dark">Nothing matches that yet.</span><br><span class="t-gray">Try another word, or build it yourself.</span></h2>
+        </div>
+        <button class="btn btn--secondary button-md" type="button" id="reset">Clear filters</button>
+      </header>
+    </div>
+  </section>
+
+  <!-- CTA ----------------------------------------------------------- -->
+  <section class="section cta" id="build">
+    <div class="section__inner">
+      <header class="section__header block">
+        <span class="mono-sm eyebrow">Can't find it?</span>
+        <div class="block__text">
+          <h2 class="display-xl"><span class="t-dark">Missing a feature?</span><br><span class="t-gray">Build it with Brain.</span></h2>
+          <p class="text-lg subtitle">Describe the app, tracker or dashboard you need and Brain builds a working Artifact you can share with your team.</p>
+        </div>
+      </header>
+      <div class="section__content">
+        <div class="composer ai-highlight" aria-hidden="true">
+          <p class="composer__text text-lg" id="typer"></p>
+          <div class="composer__bar">
+            <span class="tag"><svg class="ico-16"><use href="#cu3-icon-skillSparkle"/></svg>Artifact</span>
+            <span class="ibtn"><svg class="ico"><use href="#cu3-icon-attachment"/></svg></span>
+            <span class="composer__send"><svg><use href="#cu3-icon-send"/></svg></span>
+          </div>
+        </div>
+        <div class="cta__actions">
+          <a class="btn button-md" href="https://app.clickup.com/signup">Get started. It's free</a>
+          <a class="btn btn--secondary button-md" href="https://clickup.com/demo">Book a demo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__inner text-sm">
+    __LOGO__
+    <span>© 2026 ClickUp</span>
+    <nav aria-label="Footer">
+      <a href="https://clickup.com/pricing">Pricing</a>
+      <a href="https://help.clickup.com">Help Center</a>
+      <a href="https://clickup.com/security">Security</a>
+      <a href="https://clickup.com/terms">Terms</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" aria-hidden="true">
+  <div class="sheet__top">
+    <div class="sheet__crumb text-sm" id="sheetCrumb"></div>
+    <div class="sheet__nav">
+      <span class="pos text-xs medium" id="sheetPos"></span>
+      <button class="ibtn" type="button" id="sheetPrev" aria-label="Previous feature"><svg class="ico"><use href="#cu3-icon-chevronLeft"/></svg></button>
+      <button class="ibtn" type="button" id="sheetNext" aria-label="Next feature"><svg class="ico"><use href="#cu3-icon-chevronRight"/></svg></button>
+      <button class="ibtn" type="button" id="sheetClose" aria-label="Close"><svg class="ico"><use href="#cu3-icon-closeSmall"/></svg></button>
+    </div>
+  </div>
+  <div class="sheet__body" id="sheetBody"></div>
+</aside>
+
+<script>
+const CATS = __CATS__;
+const F = __FEATURES__;
+
+/* ---------------- data ---------------- */
+const PLANS = [
+  { id: "all", label: "All plans" },
+  { id: "free", label: "Free" },
+  { id: "unlimited", label: "Unlimited" },
+  { id: "business", label: "Business" },
+  { id: "business_plus", label: "Business Plus" },
+  { id: "enterprise", label: "Enterprise" },
+];
+const LADDER = ["free", "unlimited", "business", "business_plus", "enterprise"];
+const PLAN_NAME = { free: "Free", unlimited: "Unlimited", business: "Business", business_plus: "Business Plus", enterprise: "Enterprise", core: "Core", max: "Max" };
+const STATES = [
+  { id: "in_beta", label: "In beta" },
+  { id: "rolling_out", label: "Rolling out" },
+  { id: "in_review", label: "In review" },
+  { id: "building", label: "Building" },
+];
+const byId = new Map(F.map(f => [f.id, f]));
+const catById = new Map(CATS.map(c => [c.id, c]));
+const children = new Map();
+F.forEach(f => { if (f.parent) { if (!children.has(f.parent)) children.set(f.parent, []); children.get(f.parent).push(f); } });
+CATS.sort((a, b) => a.order - b.order);
+const AREAS = [];
+CATS.forEach(c => { let a = AREAS.find(x => x.id === c.area.id); if (!a) AREAS.push(a = { ...c.area, cats: [] }); a.cats.push(c); });
+const live = F.filter(f => f.status !== "coming_soon");
+const soon = F.filter(f => f.status === "coming_soon");
+F.forEach(f => { f._hay = [f.feature, f.description, f.surface, (f.tags || []).join(" "), catById.get(f.category)?.name].join(" ").toLowerCase(); });
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const icon = (n, cls = "ico") => `<svg class="${cls}" aria-hidden="true"><use href="#cu3-icon-${n}"/></svg>`;
+function minPlan(f) {
+  const p = LADDER.find(p => f.plans.includes(p));
+  if (p === "free") return null;
+  if (p) return PLAN_NAME[p] + "+";
+  return f.plans[0] ? PLAN_NAME[f.plans[0]] || f.plans[0] : null;
+}
+function hl(text, q) {
+  const t = esc(text);
+  if (!q) return t;
+  const i = t.toLowerCase().indexOf(esc(q).toLowerCase());
+  return i < 0 ? t : t.slice(0, i) + "<mark>" + t.slice(i, i + esc(q).length) + "</mark>" + t.slice(i + esc(q).length);
+}
+const fmtDate = d => new Date(d + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
+
+/* ---------------- open grid ---------------- */
+function colsOf(el) { return getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length; }
+function lineUp(el) {
+  const cells = [...el.children];
+  const n = colsOf(el), rows = Math.ceil(cells.length / n);
+  cells.forEach((c, i) => {
+    const col = i % n, row = Math.floor(i / n);
+    const last = row === rows - 1;
+    c.classList.toggle("c-first", col === 0);
+    c.classList.toggle("c-last", col === n - 1);
+    c.classList.toggle("c-in", col > 0);
+    c.querySelectorAll(":scope > .ln, :scope > .mk").forEach(x => x.remove());
+    let deco = `<i class="ln ln--t"></i>`;
+    if (last) deco += `<i class="ln ln--b"></i>`;
+    if (col > 0) { deco += `<i class="mk mk--t"></i>`; if (last) deco += `<i class="mk mk--b"></i>`; }
+    c.insertAdjacentHTML("afterbegin", deco);
+  });
+  // the last row may be short: its trailing cell fades to the right like a full row
+  if (cells.length % n) cells[cells.length - 1].classList.add("c-last");
+}
+const grids = new Set();
+let rsz;
+addEventListener("resize", () => { clearTimeout(rsz); rsz = setTimeout(() => grids.forEach(lineUp), 120); });
+
+/* ---------------- state ---------------- */
+const state = { q: "", plan: "all" };
+function matches(f) {
+  if (state.plan !== "all" && !f.plans.includes(state.plan)) return false;
+  if (state.q && !f._hay.includes(state.q.toLowerCase())) return false;
+  return true;
+}
+
+/* ---------------- render: hero dashboard ---------------- */
+const SHORT = { "integrations-and-apps": "Apps", "projects-and-tasks": "Projects", "ai-and-brain": "AI", "account-and-admin": "Admin",
+  "dashboards-and-reporting": "Reporting", "views": "Views", "fields-and-customization": "Fields", "knowledge": "Knowledge" };
+const SCOL = { in_beta: "#FFC53D", rolling_out: "#30A46C", in_review: "#F76808", building: "#0091FF" };
+function renderDash() {
+  const el = document.getElementById("dash");
+  const byArea = AREAS.map(a => ({ a, n: live.filter(f => a.cats.some(c => c.id === f.category)).length })).sort((x, y) => y.n - x.n);
+  const top = byArea.slice(0, 8), max = Math.ceil(top[0].n / 50) * 50;
+  const head = (t, meta) => `<div class="dc__head"><div class="dc__title">${t}<span class="dc__more">···</span></div><div class="dc__meta">${icon("dashboard")}${meta}</div></div>`;
+  const metric = (l, v) => `<div class="dc__metric"><span>${l}</span><b>${v}</b></div>`;
+  const areaCard = `<div class="dc">${head("Features by area", "ClickUp Features · Refreshed today")}
+    <div class="dc__metrics">${metric("Shipped", live.length)}${metric("Categories", CATS.length)}${metric("Areas", AREAS.length)}</div>
+    <div class="dc__body"><div class="bars"><div class="bars__y">${[0, 1, 2, 3].map(i => `<span style="bottom:${i / 3 * 100}%">${max / 3 * i}</span>`).join("")}</div>
+      <div class="bars__plot">${[0, 1, 2, 3].map(i => `<i class="gl" style="bottom:${i / 3 * 100}%"></i>`).join("")}${top.map(({ a, n }) => `<a class="bar" href="#${a.cats[0].id}" aria-label="${esc(a.name)}: ${n} features"><b style="bottom:calc(${n / max * 100}% + 4px)">${n}</b><i style="height:${n / max * 100}%"></i><small>${esc(SHORT[a.id] || a.name)}</small></a>`).join("")}</div>
+    </div></div></div>`;
+  const total = soon.length;
+  const soonCard = `<a class="dc dc--link" href="#coming-soon" style="text-decoration:none;color:inherit">${head("Coming soon", "Roadmap · Updated " + fmtDate(soon.map(f => f.coming_soon.last_activity).sort().pop()))}
+    <div class="dc__metrics">${metric("In progress", total)}${metric("In beta", soon.filter(f => f.coming_soon.state === "in_beta").length)}${metric("Rolling out", soon.filter(f => f.coming_soon.state === "rolling_out").length)}</div>
+    <div class="dc__body"><div class="battery">${STATES.map(st => { const n = soon.filter(f => f.coming_soon.state === st.id).length; return `<span style="flex:${n};background:${SCOL[st.id]}" title="${st.label}: ${n}"></span>`; }).join("")}</div>
+    <div class="legend">${STATES.map(st => `<span><i style="background:${SCOL[st.id]}"></i>${st.label} ${soon.filter(f => f.coming_soon.state === st.id).length}</span>`).join("")}</div></div></a>`;
+  const planCard = `<div class="dc">${head("Features by plan", "Click a plan to filter")}
+    <div class="dc__body"><div class="hbars">${LADDER.map(p => { const n = live.filter(f => f.plans.includes(p)).length; return `<button class="hbar" type="button" data-plan="${p}" aria-pressed="false"><span>${PLAN_NAME[p]}</span><span class="track"><i style="width:${n / live.length * 100}%"></i></span><em>${n}</em></button>`; }).join("")}</div></div></div>`;
+  el.innerHTML = areaCard + `<div class="dash__col">${soonCard}${planCard}</div>`;
+  el.querySelector(".hbars").addEventListener("click", e => {
+    const b = e.target.closest(".hbar"); if (!b) return;
+    state.plan = state.plan === b.dataset.plan ? "all" : b.dataset.plan; render();
+  });
+}
+
+/* ---------------- render: directory ---------------- */
+function renderDir(counts) {
+  const el = document.getElementById("dir");
+  if (!el.children.length) {
+    el.innerHTML = AREAS.map(a => `<div class="cell"><span class="mono-xs eyebrow gray">${esc(a.name)}</span><ul>${a.cats.map(c =>
+      `<li><a href="#${c.id}" data-cat="${c.id}" class="text-sm medium">${icon(c.icon, "ico-16")}<span class="n">${esc(c.name)}</span><span class="c text-xs"></span></a></li>`).join("")}</ul></div>`).join("");
+    grids.add(el); lineUp(el);
+  }
+  el.querySelectorAll("a[data-cat]").forEach(a => {
+    const n = counts.get(a.dataset.cat) || 0;
+    a.querySelector(".c").textContent = n;
+    a.classList.toggle("is-empty", n === 0);
+    a.tabIndex = n === 0 ? -1 : 0;
+  });
+}
+
+/* ---------------- render: coming soon (List view) ---------------- */
+function renderSoon() {
+  const el = document.getElementById("soonList");
+  const list = soon.filter(f => !state.q || f._hay.includes(state.q.toLowerCase()));
+  const catTone = new Map(CATS.map((c, i) => [c.id, i % 4]));
+  let html = `<div class="lv__bar"><span class="lv__space">${icon("listView")}</span><span class="lv__title">Coming soon</span><span class="lv__meta">${list.length} ${list.length === 1 ? "task" : "tasks"}</span></div>
+    <div class="lv__tabs"><span class="lv__tab is-on">${icon("listView")}List</span><span class="lv__tab">${icon("boardView")}Board</span><span class="lv__tab">${icon("calendarView")}Calendar</span></div>
+    <div class="lv__head"><span>Name</span><span>Category</span><span>Updated</span></div>`;
+  STATES.forEach(s => {
+    const rows = list.filter(f => f.coming_soon.state === s.id).sort((a, b) => b.coming_soon.last_activity.localeCompare(a.coming_soon.last_activity));
+    if (!rows.length) return;
+    html += `<div class="lv__group"><div class="lv__ghead"><span class="st st--${s.id}"><span class="dot"></span>${s.label}</span><span class="lv__count">${rows.length}</span></div>`;
+    html += rows.map(f => `<button class="lv__row" type="button" data-s="${s.id}" data-open="${f.id}"><span class="lv__ring"></span><span class="lv__name">${hl(f.feature, state.q)}<small>${esc(f.surface)}</small></span><span class="lv__tag t${catTone.get(f.category)}">${esc(catById.get(f.category).name)}</span><span class="lv__date">${fmtDate(f.coming_soon.last_activity)}</span></button>`).join("");
+    html += `</div>`;
+  });
+  html += `<div class="lv__add">+&nbsp;&nbsp;Add task</div>`;
+  el.innerHTML = html;
+  document.getElementById("coming-soon").hidden = list.length === 0 || state.plan !== "all";
+}
+document.getElementById("soonToggle").addEventListener("click", e => {
+  const card = document.getElementById("soonCard"), frame = card.querySelector(".soon-card__frame");
+  const open = !card.classList.contains("is-open");
+  if (open) { frame.style.maxHeight = frame.scrollHeight + "px"; card.classList.add("is-open"); }
+  else { frame.style.maxHeight = ""; card.classList.remove("is-open"); card.scrollIntoView({ block: "start" }); }
+  e.currentTarget.setAttribute("aria-expanded", open);
+  e.currentTarget.textContent = open ? "Show less" : `Show all ${soon.length}`;
+});
+
+/* ---------------- render: catalog ---------------- */
+const catsEl = document.getElementById("cats");
+function buildCats() {
+  catsEl.innerHTML = CATS.map(c => `<section class="cat" id="${c.id}" aria-labelledby="h-${c.id}">
+    <div class="cat__side"><div class="cat__sticky">
+      <span class="cat__tile">${icon(c.icon)}</span>
+      <div class="block__text">
+        <span class="mono-xs eyebrow">${esc(c.area.name)}</span>
+        <h2 class="display-sm" id="h-${c.id}">${esc(c.name)}</h2>
+        <span class="cat__count text-sm medium" data-count-of="${c.id}"></span>
+        <p class="cat__desc text-sm">${esc(c.description)}</p>
+      </div>
+    </div></div>
+    <div class="og feats" data-grid="${c.id}"></div>
+  </section>`).join("");
+}
+function featCell(f) {
+  const plan = minPlan(f);
+  const badge = f.status === "beta" ? `<span class="tag tag--accent">Beta</span>` : f.status === "new" ? `<span class="tag tag--accent">New</span>` : "";
+  return `<div class="cell"><button class="feat" type="button" data-open="${f.id}">
+    <span class="feat__icon">${icon(f.icon_resolved)}</span>
+    <span class="feat__body">
+      <span class="feat__surface text-xs medium">${esc(f.surface)}</span>
+      <span class="feat__name text-md semibold">${hl(f.feature, state.q)}</span>
+      <span class="feat__desc text-sm">${hl(f.description, state.q)}</span>
+    </span>
+    <span class="feat__foot">${badge}${plan ? `<span class="tag">${plan}</span>` : `<span class="tag tag--plain">All plans</span>`}${icon("arrowRight", "ico-16 arrow")}</span>
+  </button></div>`;
+}
+let visible = [];
+function render() {
+  const counts = new Map();
+  visible = [];
+  CATS.forEach(c => {
+    const list = live.filter(f => f.category === c.id && matches(f));
+    counts.set(c.id, list.length);
+    const sec = document.getElementById(c.id), grid = sec.querySelector(".feats");
+    sec.hidden = list.length === 0;
+    grid.innerHTML = list.map(featCell).join("");
+    sec.querySelector("[data-count-of]").textContent = `${list.length} ${list.length === 1 ? "feature" : "features"}`;
+    visible.push(...list);
+    if (list.length) { grids.add(grid); lineUp(grid); } else grids.delete(grid);
+  });
+  renderDir(counts);
+  renderSoon();
+  const total = visible.length;
+  document.getElementById("empty").hidden = total > 0;
+  document.querySelectorAll("[data-count]").forEach(e => e.textContent = `${total} ${total === 1 ? "feature" : "features"}`);
+  document.querySelectorAll("[data-count-n]").forEach(e => e.textContent = total);
+  document.querySelector("#catalog > .section__inner").hidden = total === 0;
+  document.querySelectorAll(".hbar").forEach(b => b.setAttribute("aria-pressed", b.dataset.plan === state.plan));
+  document.querySelectorAll("[data-plans]").forEach(g => g.querySelectorAll(".pill").forEach(p => p.setAttribute("aria-pressed", p.dataset.plan === state.plan)));
+  document.querySelectorAll("[data-search]").forEach(s => s.classList.toggle("has-value", !!state.q));
+}
+
+/* ---------------- controls ---------------- */
+document.querySelectorAll("[data-plans]").forEach(g => {
+  g.innerHTML = PLANS.map(p => `<button class="pill text-sm medium" type="button" data-plan="${p.id}" aria-pressed="false">${p.label}</button>`).join("");
+  g.addEventListener("click", e => {
+    const b = e.target.closest(".pill"); if (!b) return;
+    state.plan = b.dataset.plan; render();
+  });
+});
+const inputs = [...document.querySelectorAll("[data-search] input")];
+let qt;
+inputs.forEach(inp => {
+  inp.addEventListener("input", () => {
+    inputs.forEach(o => { if (o !== inp) o.value = inp.value; });
+    clearTimeout(qt); qt = setTimeout(() => { state.q = inp.value.trim(); render(); }, 120);
+  });
+  inp.addEventListener("keydown", e => {
+    if (e.key === "Enter") { document.getElementById(visible[0]?.category || "catalog")?.scrollIntoView({ block: "start" }); inp.blur(); }
+    if (e.key === "Escape") { inp.value = ""; inp.dispatchEvent(new Event("input")); }
+  });
+});
+document.querySelectorAll(".search__clear").forEach(b => b.addEventListener("click", () => { inputs.forEach(i => i.value = ""); state.q = ""; render(); inputs[1].focus(); }));
+document.getElementById("reset").addEventListener("click", () => { inputs.forEach(i => i.value = ""); state.q = ""; state.plan = "all"; render(); });
+addEventListener("keydown", e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+    e.preventDefault();
+    const tb = document.getElementById("toolbar");
+    (tb.classList.contains("is-on") ? tb.querySelector("input") : document.getElementById("q")).focus();
+  }
+});
+
+/* nav border + sticky toolbar once the hero tools leave the screen */
+const nav = document.getElementById("nav"), toolbar = document.getElementById("toolbar");
+addEventListener("scroll", () => nav.classList.toggle("is-scrolled", scrollY > 8), { passive: true });
+new IntersectionObserver(([e]) => {
+  const on = !e.isIntersecting && e.boundingClientRect.top < 0;
+  toolbar.classList.toggle("is-on", on);
+  toolbar.setAttribute("aria-hidden", !on);
+  toolbar.querySelectorAll("input, button").forEach(x => x.tabIndex = on ? 0 : -1);
+}, { rootMargin: `-${64}px 0px 0px 0px` }).observe(document.getElementById("heroTools"));
+
+/* ---------------- detail sheet ---------------- */
+const sheet = document.getElementById("sheet"), scrim = document.getElementById("scrim"), body = document.getElementById("sheetBody");
+let cur = null, seq = [], lastFocus = null;
+const VAL = {
+  yes: () => `<span class="v">${icon("circleCheck", "ico-16 ok")}Included</span>`,
+  limited: () => `<span class="v">Limited</span>`,
+  trial: () => `<span class="v">Trial</span>`,
+  addon: () => `<span class="v">Add-on</span>`,
+  no: () => `<span class="v no">Not included</span>`,
+  unknown: () => `<span class="v no">To be announced</span>`,
+};
+function limitText(l) { if (!l) return ""; const v = l.value === "unlimited" ? "Unlimited" : l.value; return `${v} ${l.unit || ""}${l.per ? " per " + l.per : ""}`.trim(); }
+function openFeature(id, from) {
+  const f = byId.get(id); if (!f) return;
+  cur = f;
+  const pool = f.status === "coming_soon" ? soon : visible.length ? visible : live;
+  seq = pool.filter(x => x.category === f.category);
+  if (!seq.includes(f)) seq = [f];
+  const c = catById.get(f.category);
+  const i = seq.indexOf(f);
+  document.getElementById("sheetCrumb").innerHTML = `${icon(c.icon, "ico-16")}<span><b>${esc(c.name)}</b> · ${esc(f.surface)}</span>`;
+  document.getElementById("sheetPos").textContent = `${i + 1} / ${seq.length}`;
+  document.getElementById("sheetPrev").disabled = i <= 0;
+  document.getElementById("sheetNext").disabled = i >= seq.length - 1;
+
+  const parent = f.parent && byId.get(f.parent);
+  const kids = (children.get(f.id) || []);
+  const badge = f.status === "coming_soon" ? `<span class="tag tag--accent">Coming soon</span>` : f.status === "beta" ? `<span class="tag tag--accent">Beta</span>` : f.status === "new" ? `<span class="tag tag--accent">New</span>` : "";
+  let h = `<div class="sheet__head block">
+      <span class="mono-xs eyebrow">${esc(c.area.name)}</span>
+      <div class="block__text">
+        <h2 class="display-md" id="sheetTitle">${esc(f.feature)}</h2>
+        <p class="text-lg">${esc(f.description)}</p>
+      </div>
+      ${badge || minPlan(f) ? `<div class="sheet__tags">${badge}${minPlan(f) ? `<span class="tag">${minPlan(f)}</span>` : ""}</div>` : ""}
+    </div>`;
+  if (f.summary) h += `<p class="sheet__summary text-md">${esc(f.summary)}</p>`;
+  if (f.docs_url || f.link) h += `<div class="sheet__actions">${f.link ? `<a class="btn btn--sm button-sm" href="${esc(f.link)}" target="_blank" rel="noopener">Learn more</a>` : ""}${f.docs_url ? `<a class="btn btn--secondary btn--sm button-sm" href="${esc(f.docs_url)}" target="_blank" rel="noopener">Help Center article${icon("arrowUpRight", "ico-16")}</a>` : ""}</div>`;
+
+  if (f.status === "coming_soon") {
+    const s = STATES.find(s => s.id === f.coming_soon.state);
+    h += `<div class="sec"><div class="eyebrow-separator">Status</div><div class="state product"><span class="st st--${s.id}"><span class="dot"></span>${s.label}</span><span class="text-sm" style="color:#838383">Last activity ${fmtDate(f.coming_soon.last_activity)}</span></div></div>`;
+  } else {
+    h += `<div class="sec"><div class="eyebrow-separator">Plans</div><div class="matrix">${LADDER.map(p => {
+      const v = f.plan_values[p] || "unknown";
+      const lim = limitText(f.limits && f.limits[p]);
+      return `<div class="${state.plan === p ? "is-cur" : ""}"><span class="pl text-xs medium">${PLAN_NAME[p]}</span><span class="text-sm medium">${(VAL[v] || VAL.unknown)()}</span>${lim ? `<span class="lim text-xs">${esc(lim)}</span>` : ""}</div>`;
+    }).join("")}</div>${(f.plan_values.max === "yes" || f.plan_values.core === "yes") ? `<div class="extra text-xs">${f.plan_values.core === "yes" ? "<span>Also on Core</span>" : ""}${f.plan_values.max === "yes" ? "<span>Also on Max</span>" : ""}</div>` : ""}</div>`;
+  }
+  if (parent) h += `<div class="sec"><div class="eyebrow-separator">Part of</div><div class="rows"><button type="button" data-open="${parent.id}">${icon(parent.icon_resolved, "ico-16")}<span class="n text-sm medium">${esc(parent.feature)}</span>${icon("chevronRight", "ico-16 chev")}</button></div></div>`;
+  if (kids.length) h += `<div class="sec"><div class="eyebrow-separator">Sub-features · ${kids.length}</div><div class="rows">${kids.map(k => `<button type="button" data-open="${k.id}">${icon(k.icon_resolved, "ico-16")}<span class="n text-sm medium">${esc(k.feature)}</span>${icon("chevronRight", "ico-16 chev")}</button>`).join("")}</div></div>`;
+  if (f.tags && f.tags.length) h += `<div class="sec"><div class="eyebrow-separator">Also known as</div><div class="sheet__tags" style="padding-top:16px">${[...new Set(f.tags.map(t => t.toLowerCase()))].map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div></div>`;
+  body.innerHTML = h;
+  body.scrollTop = 0;
+
+  if (!sheet.classList.contains("is-on")) {
+    lastFocus = from || document.activeElement;
+    sheet.classList.add("is-on"); scrim.classList.add("is-on"); sheet.setAttribute("aria-hidden", "false");
+    document.documentElement.style.overflow = "hidden";
+    setTimeout(() => document.getElementById("sheetClose").focus({ preventScroll: true }), 50);
+  }
+  history.replaceState(null, "", "#feature=" + f.id);
+}
+function closeSheet() {
+  sheet.classList.remove("is-on"); scrim.classList.remove("is-on"); sheet.setAttribute("aria-hidden", "true");
+  document.documentElement.style.overflow = "";
+  history.replaceState(null, "", location.pathname + location.search);
+  lastFocus && lastFocus.focus && lastFocus.focus({ preventScroll: true });
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-open]"); if (b) openFeature(b.dataset.open, b); });
+scrim.addEventListener("click", closeSheet);
+document.getElementById("sheetClose").addEventListener("click", closeSheet);
+document.getElementById("sheetPrev").addEventListener("click", () => { const i = seq.indexOf(cur); if (i > 0) openFeature(seq[i - 1].id); });
+document.getElementById("sheetNext").addEventListener("click", () => { const i = seq.indexOf(cur); if (i < seq.length - 1) openFeature(seq[i + 1].id); });
+addEventListener("keydown", e => {
+  if (!sheet.classList.contains("is-on")) return;
+  if (e.key === "Escape") closeSheet();
+  if (e.key === "ArrowLeft" && !e.target.closest("input")) document.getElementById("sheetPrev").click();
+  if (e.key === "ArrowRight" && !e.target.closest("input")) document.getElementById("sheetNext").click();
+  if (e.key === "Tab") { // keep focus in the sheet
+    const f = [...sheet.querySelectorAll("button:not(:disabled), a[href]")];
+    if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+  }
+});
+
+/* ---------------- CTA typer ---------------- */
+(function typer() {
+  const el = document.getElementById("typer");
+  const lines = [
+    "Build a client onboarding tracker with a checklist per account and a weekly digest.",
+    "Make a sprint retro board that groups feedback by theme and votes on actions.",
+    "Create a hiring dashboard that pulls candidates from my recruiting List.",
+  ];
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = lines[0]; return; }
+  let li = 0, ci = 0, del = false;
+  const tick = () => {
+    const s = lines[li];
+    ci += del ? -1 : 1;
+    el.innerHTML = esc(s.slice(0, ci)) + '<span class="caret"></span>';
+    let t = del ? 18 : 38;
+    if (!del && ci === s.length) { del = true; t = 2200; }
+    else if (del && ci === 0) { del = false; li = (li + 1) % lines.length; t = 400; }
+    setTimeout(tick, t);
+  };
+  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); tick(); } }).observe(el);
+})();
+
+/* ---------------- boot ---------------- */
+renderDash();
+buildCats();
+render();
+const m = location.hash.match(/^#feature=(.+)$/);
+if (m) openFeature(decodeURIComponent(m[1]));
+</script>
+</body>
+</html>

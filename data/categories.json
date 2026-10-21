@@ -1,0 +1,585 @@
+[
+ {
+  "id": "permissions",
+  "name": "Permissions",
+  "description": "Control who can see, edit and share every Space, List, task and Doc, from basic sharing to custom roles and admin controls.",
+  "icon": "lock",
+  "order": 101,
+  "area": {
+   "id": "account-and-admin",
+   "name": "Account & Admin"
+  }
+ },
+ {
+  "id": "authentication",
+  "name": "Authentication",
+  "description": "Sign in securely with passwords, Google, two-factor authentication and enterprise single sign-on.",
+  "icon": "lockAlt",
+  "order": 102,
+  "area": {
+   "id": "account-and-admin",
+   "name": "Account & Admin"
+  }
+ },
+ {
+  "id": "billing-and-plans",
+  "name": "Billing & Plans",
+  "description": "Compare plans, manage billing and invoices, buy add-ons and get the support level your Workspace needs.",
+  "icon": "rocket",
+  "order": 103,
+  "area": {
+   "id": "account-and-admin",
+   "name": "Account & Admin"
+  }
+ },
+ {
+  "id": "user-management",
+  "name": "User Management",
+  "description": "Invite and organize people with roles, guests, Teams, provisioning, audit logs and Workspace settings.",
+  "icon": "users",
+  "order": 104,
+  "area": {
+   "id": "account-and-admin",
+   "name": "Account & Admin"
+  }
+ },
+ {
+  "id": "ai-platform",
+  "name": "AI Platform",
+  "description": "ClickUp Brain, Super Agents, Artifacts, Skills, AI credits and the add-ons that bring AI into every part of your work.",
+  "icon": "aiWrite",
+  "order": 201,
+  "area": {
+   "id": "ai-and-brain",
+   "name": "AI & Brain"
+  }
+ },
+ {
+  "id": "ai-fields",
+  "name": "AI Fields",
+  "description": "Custom Fields and task properties that Brain fills in for you, from summaries to assignees and priorities.",
+  "icon": "customField",
+  "order": 202,
+  "area": {
+   "id": "ai-and-brain",
+   "name": "AI & Brain"
+  }
+ },
+ {
+  "id": "ai-growth",
+  "name": "AI Growth",
+  "description": "AI that helps new users set up Lists and see their next steps faster.",
+  "icon": "idea",
+  "order": 203,
+  "area": {
+   "id": "ai-and-brain",
+   "name": "AI & Brain"
+  }
+ },
+ {
+  "id": "brain-max",
+  "name": "Brain MAX",
+  "description": "Brain MAX, the standalone AI app for desktop, mobile and Chrome, plus Talk to Text dictation.",
+  "icon": "brainMemory",
+  "order": 204,
+  "area": {
+   "id": "ai-and-brain",
+   "name": "AI & Brain"
+  }
+ },
+ {
+  "id": "ai-meetings",
+  "name": "AI Meetings",
+  "description": "AI Notetaker and SyncUp AI notes that record, transcribe and summarize your meetings.",
+  "icon": "microphone",
+  "order": 205,
+  "area": {
+   "id": "ai-and-brain",
+   "name": "AI & Brain"
+  }
+ },
+ {
+  "id": "chat",
+  "name": "Chat",
+  "description": "Team messaging in Channels, direct messages, Posts and threads, plus comments, reactions and mentions on work.",
+  "icon": "chatView",
+  "order": 301,
+  "area": {
+   "id": "communication",
+   "name": "Communication"
+  }
+ },
+ {
+  "id": "inbox-and-notifications",
+  "name": "Inbox & Notifications",
+  "description": "The Inbox, notifications and their settings, followers, and email sent and received inside ClickUp.",
+  "icon": "inbox",
+  "order": 302,
+  "area": {
+   "id": "communication",
+   "name": "Communication"
+  }
+ },
+ {
+  "id": "reminders",
+  "name": "Reminders",
+  "description": "Personal, delegated and recurring reminders that keep follow-ups from slipping.",
+  "icon": "reminder",
+  "order": 303,
+  "area": {
+   "id": "communication",
+   "name": "Communication"
+  }
+ },
+ {
+  "id": "meetings",
+  "name": "Meetings",
+  "description": "Meetings Hub, where recorded meetings, notes, transcripts and action items come together.",
+  "icon": "video",
+  "order": 304,
+  "area": {
+   "id": "communication",
+   "name": "Communication"
+  }
+ },
+ {
+  "id": "syncups",
+  "name": "SyncUps",
+  "description": "Audio and video calls started from Chat, with screen sharing, recordings and AI notes.",
+  "icon": "headset",
+  "order": 305,
+  "area": {
+   "id": "communication",
+   "name": "Communication"
+  }
+ },
+ {
+  "id": "dashboard-cards",
+  "name": "Dashboard Cards",
+  "description": "Charts, counts and reports you add to Dashboards to track tasks, sprints, statuses, tags and team work.",
+  "icon": "chart",
+  "order": 401,
+  "area": {
+   "id": "dashboards-and-reporting",
+   "name": "Dashboards & Reporting"
+  }
+ },
+ {
+  "id": "dashboards",
+  "name": "Dashboards",
+  "description": "Build, share and schedule Dashboards and Dashboard views that combine cards and filters across your Workspace.",
+  "icon": "dashboard",
+  "order": 402,
+  "area": {
+   "id": "dashboards-and-reporting",
+   "name": "Dashboards & Reporting"
+  }
+ },
+ {
+  "id": "time-tracking-cards",
+  "name": "Time Tracking Cards",
+  "description": "Dashboard cards that report tracked time, time estimates, billable hours and timesheets.",
+  "icon": "timesheetView",
+  "order": 403,
+  "area": {
+   "id": "dashboards-and-reporting",
+   "name": "Dashboards & Reporting"
+  }
+ },
+ {
+  "id": "custom-fields",
+  "name": "Custom Fields",
+  "description": "Add your own field types and standard task properties to tasks, then manage, protect and calculate them.",
+  "icon": "customField",
+  "order": 501,
+  "area": {
+   "id": "fields-and-customization",
+   "name": "Fields & Customization"
+  }
+ },
+ {
+  "id": "statuses",
+  "name": "Statuses",
+  "description": "Define workflow stages for tasks with custom statuses, status groups, templates and work-in-progress limits.",
+  "icon": "status",
+  "order": 502,
+  "area": {
+   "id": "fields-and-customization",
+   "name": "Fields & Customization"
+  }
+ },
+ {
+  "id": "tags-and-relationships",
+  "name": "Tags & Relationships",
+  "description": "Label tasks with tags and connect related tasks and Docs with relationships.",
+  "icon": "tag",
+  "order": 503,
+  "area": {
+   "id": "fields-and-customization",
+   "name": "Fields & Customization"
+  }
+ },
+ {
+  "id": "time-estimates",
+  "name": "Time Estimates",
+  "description": "Estimate effort with time estimates and Sprint Points, and see how long tasks spend in each status.",
+  "icon": "timeEstimate",
+  "order": 504,
+  "area": {
+   "id": "fields-and-customization",
+   "name": "Fields & Customization"
+  }
+ },
+ {
+  "id": "onboarding",
+  "name": "Onboarding",
+  "description": "Signup, first-workspace setup, invites, in-app banners, tours and changing or cancelling a plan.",
+  "icon": "rocket",
+  "order": 601,
+  "area": {
+   "id": "growth-and-onboarding",
+   "name": "Growth & Onboarding"
+  }
+ },
+ {
+  "id": "home",
+  "name": "Home",
+  "description": "Your personal starting page and the navigation that moves you around ClickUp: My Tasks, sidebars, Hubs and favorites.",
+  "icon": "everything",
+  "order": 701,
+  "area": {
+   "id": "home-and-navigation",
+   "name": "Home & Navigation"
+  }
+ },
+ {
+  "id": "my-work",
+  "name": "My Work",
+  "description": "Personal views of the work assigned to you, your own priorities and your personal space.",
+  "icon": "listChecked",
+  "order": 702,
+  "area": {
+   "id": "home-and-navigation",
+   "name": "Home & Navigation"
+  }
+ },
+ {
+  "id": "extensions",
+  "name": "Extensions",
+  "description": "Browser extensions that bring ClickUp and Brain into the web pages and inboxes you already use.",
+  "icon": "chrome",
+  "order": 801,
+  "area": {
+   "id": "integrations-and-apps",
+   "name": "Integrations & Apps"
+  }
+ },
+ {
+  "id": "imports",
+  "name": "Imports",
+  "description": "Importers and exports that move work into and out of ClickUp from other tools and files.",
+  "icon": "importIcon",
+  "order": 802,
+  "area": {
+   "id": "integrations-and-apps",
+   "name": "Integrations & Apps"
+  }
+ },
+ {
+  "id": "bidirectional-syncs",
+  "name": "Bidirectional Syncs",
+  "description": "Two-way syncs that keep ClickUp tasks and records in other business systems updated together.",
+  "icon": "sync",
+  "order": 803,
+  "area": {
+   "id": "integrations-and-apps",
+   "name": "Integrations & Apps"
+  }
+ },
+ {
+  "id": "native-integrations",
+  "name": "Native Integrations",
+  "description": "Built-in connections to chat, developer, storage, calendar, CRM and AI tools, plus the ClickUp API and MCP.",
+  "icon": "connections",
+  "order": 804,
+  "area": {
+   "id": "integrations-and-apps",
+   "name": "Integrations & Apps"
+  }
+ },
+ {
+  "id": "attachments-and-media",
+  "name": "Attachments & Media",
+  "description": "Files and storage, proofing, Clips and Voice Clips attached to tasks, comments and Docs.",
+  "icon": "attachment",
+  "order": 901,
+  "area": {
+   "id": "knowledge",
+   "name": "Knowledge"
+  }
+ },
+ {
+  "id": "docs",
+  "name": "Docs",
+  "description": "Docs, wikis, pages, Notepad, Sheets and the Library for writing, organizing and sharing knowledge.",
+  "icon": "doc",
+  "order": 902,
+  "area": {
+   "id": "knowledge",
+   "name": "Knowledge"
+  }
+ },
+ {
+  "id": "forms",
+  "name": "Forms",
+  "description": "Forms that turn responses into tasks, with conditional logic, branding and sharing controls.",
+  "icon": "formView",
+  "order": 903,
+  "area": {
+   "id": "knowledge",
+   "name": "Knowledge"
+  }
+ },
+ {
+  "id": "whiteboards",
+  "name": "Whiteboards",
+  "description": "Whiteboards and Canvas for brainstorming visually and turning ideas into tasks.",
+  "icon": "whiteboards",
+  "order": 904,
+  "area": {
+   "id": "knowledge",
+   "name": "Knowledge"
+  }
+ },
+ {
+  "id": "profile",
+  "name": "Profile",
+  "description": "Profiles and user statuses that show who people are and whether they are available.",
+  "icon": "userCircle",
+  "order": 1001,
+  "area": {
+   "id": "people-and-work-analytics",
+   "name": "People & Work Analytics"
+  }
+ },
+ {
+  "id": "pulse-and-analytics",
+  "name": "Pulse & Analytics",
+  "description": "Pulse, Teams Hub, presence and Personal Priorities for seeing who is working on what.",
+  "icon": "pulse",
+  "order": 1002,
+  "area": {
+   "id": "people-and-work-analytics",
+   "name": "People & Work Analytics"
+  }
+ },
+ {
+  "id": "backend-services",
+  "name": "Backend Services",
+  "description": "The public API, offline access and session controls that keep ClickUp connected and secure.",
+  "icon": "code",
+  "order": 1101,
+  "area": {
+   "id": "platform-and-infrastructure",
+   "name": "Platform & Infrastructure"
+  }
+ },
+ {
+  "id": "data-platform",
+  "name": "Data Platform",
+  "description": "Storage, archive, Trash, data residency, retention and compliance for the data in your Workspace.",
+  "icon": "hierarchyTree",
+  "order": 1102,
+  "area": {
+   "id": "platform-and-infrastructure",
+   "name": "Platform & Infrastructure"
+  }
+ },
+ {
+  "id": "rich-text-editor",
+  "name": "Rich Text Editor",
+  "description": "The editor behind Docs, tasks and comments: formatting, slash commands, Markdown, mentions, tables and blocks.",
+  "icon": "write",
+  "order": 1103,
+  "area": {
+   "id": "platform-and-infrastructure",
+   "name": "Platform & Infrastructure"
+  }
+ },
+ {
+  "id": "frontend-platform",
+  "name": "Frontend Platform",
+  "description": "Personalize the ClickUp interface with themes, dark mode, language, shortcuts and accessibility settings.",
+  "icon": "customize",
+  "order": 1104,
+  "area": {
+   "id": "platform-and-infrastructure",
+   "name": "Platform & Infrastructure"
+  }
+ },
+ {
+  "id": "desktop-app",
+  "name": "Desktop App",
+  "description": "The native ClickUp app for Mac, Windows and Linux.",
+  "icon": "desktopApp",
+  "order": 1105,
+  "area": {
+   "id": "platform-and-infrastructure",
+   "name": "Platform & Infrastructure"
+  }
+ },
+ {
+  "id": "mobile",
+  "name": "Mobile",
+  "description": "The ClickUp apps for iPhone, iPad, Android and Apple Watch, with widgets and voice assistants.",
+  "icon": "mobile",
+  "order": 1106,
+  "area": {
+   "id": "platform-and-infrastructure",
+   "name": "Platform & Infrastructure"
+  }
+ },
+ {
+  "id": "automations",
+  "name": "Automations",
+  "description": "Rules, triggers, actions, webhooks and recurring tasks that automate routine work across ClickUp.",
+  "icon": "automations",
+  "order": 1201,
+  "area": {
+   "id": "projects-and-tasks",
+   "name": "Projects & Tasks"
+  }
+ },
+ {
+  "id": "goals",
+  "name": "Goals",
+  "description": "Goals, targets, Goal Folders and Goals cards that measure progress toward outcomes.",
+  "icon": "goals",
+  "order": 1202,
+  "area": {
+   "id": "projects-and-tasks",
+   "name": "Projects & Tasks"
+  }
+ },
+ {
+  "id": "hierarchy",
+  "name": "Hierarchy",
+  "description": "Spaces, Folders, Subfolders, Lists, the sidebar and navigation that organize a Workspace.",
+  "icon": "hierarchy",
+  "order": 1203,
+  "area": {
+   "id": "projects-and-tasks",
+   "name": "Projects & Tasks"
+  }
+ },
+ {
+  "id": "project-management",
+  "name": "Project Management",
+  "description": "Scheduling helpers such as start and due dates, ClickApps, non-working days and date remapping.",
+  "icon": "milestone",
+  "order": 1204,
+  "area": {
+   "id": "projects-and-tasks",
+   "name": "Projects & Tasks"
+  }
+ },
+ {
+  "id": "sprints",
+  "name": "Sprints",
+  "description": "Sprints, Sprint Folders, backlogs, Sprint Points and epics for agile teams.",
+  "icon": "sprint",
+  "order": 1205,
+  "area": {
+   "id": "projects-and-tasks",
+   "name": "Projects & Tasks"
+  }
+ },
+ {
+  "id": "tasks",
+  "name": "Tasks",
+  "description": "Tasks, subtasks, checklists, dependencies, comments, email and the task view.",
+  "icon": "task",
+  "order": 1206,
+  "area": {
+   "id": "projects-and-tasks",
+   "name": "Projects & Tasks"
+  }
+ },
+ {
+  "id": "templates",
+  "name": "Templates",
+  "description": "The Template Center and templates for tasks, Lists, Folders, Spaces, Docs, views and Whiteboards.",
+  "icon": "templates",
+  "order": 1207,
+  "area": {
+   "id": "projects-and-tasks",
+   "name": "Projects & Tasks"
+  }
+ },
+ {
+  "id": "search",
+  "name": "Search",
+  "description": "Find anything in ClickUp or connected apps through search, the AI Command Bar and Connected Search.",
+  "icon": "search",
+  "order": 1301,
+  "area": {
+   "id": "search-and-navigation",
+   "name": "Search & Navigation"
+  }
+ },
+ {
+  "id": "calendar",
+  "name": "Calendar",
+  "description": "The Planner, Calendar view and calendar integrations that put tasks and meetings on one schedule.",
+  "icon": "calendarView",
+  "order": 1401,
+  "area": {
+   "id": "time-and-scheduling",
+   "name": "Time & Scheduling"
+  }
+ },
+ {
+  "id": "scheduling",
+  "name": "Scheduling",
+  "description": "Durations, working days, dependency rescheduling, work schedules, capacity and time off.",
+  "icon": "dateSchedule",
+  "order": 1402,
+  "area": {
+   "id": "time-and-scheduling",
+   "name": "Time & Scheduling"
+  }
+ },
+ {
+  "id": "time-tracking",
+  "name": "Time Tracking",
+  "description": "Track time on tasks, mark it billable, and review and approve it in Timesheets.",
+  "icon": "timeTracking",
+  "order": 1403,
+  "area": {
+   "id": "time-and-scheduling",
+   "name": "Time & Scheduling"
+  }
+ },
+ {
+  "id": "task-views",
+  "name": "Task Views",
+  "description": "Every view type for looking at tasks, from List, Board and Table to Gantt, Timeline, Workload and Map.",
+  "icon": "boardView",
+  "order": 1501,
+  "area": {
+   "id": "views",
+   "name": "Views"
+  }
+ },
+ {
+  "id": "view-infrastructure",
+  "name": "View Infrastructure",
+  "description": "Shared view capabilities: filters, grouping, default, private, protected and required views, and view permissions.",
+  "icon": "filter",
+  "order": 1502,
+  "area": {
+   "id": "views",
+   "name": "Views"
+  }
+ }
+]

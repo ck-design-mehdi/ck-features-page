@@ -1,0 +1,63 @@
+/* ------------------------------------------------------------------ */
+/* Hero: every feature scrolling on a curved (cylinder) surface        */
+/* ------------------------------------------------------------------ */
+.hero.section { position: relative; overflow: visible; min-height: 760px; display: flex; align-items: center; padding-top: 72px; padding-bottom: 96px; }
+.hero > .section__inner { position: relative; z-index: 2; width: 100%; pointer-events: none; }
+.hero .section__header > * { pointer-events: auto; }
+.hero .section__header > .block__text { pointer-events: none; }
+.hero .hero__tools { pointer-events: none; }
+.hero .hero__tools > *, .hero .plans > * { pointer-events: auto; }
+.hero .plans { pointer-events: none; }
+
+.hero__bg {
+  position: absolute; inset: 0; z-index: 0; overflow: hidden; perspective: 1100px; perspective-origin: 50% 50%;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 12%, #000 84%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 12%, #000 84%, transparent 100%);
+  mask-composite: intersect;
+}
+/* the containers sit at z=0, in front of cells that recede on the curve: let clicks go through them */
+.cyl { position: absolute; inset: 0; transform-style: preserve-3d; pointer-events: none; }
+.crow { position: absolute; left: 50%; transform-style: preserve-3d; pointer-events: none; }
+.chip { pointer-events: auto; }
+/* cells are mouse-only (tabindex -1): no focus ring, even when focus comes back after closing a sheet */
+.chip:focus, .chip:focus-visible { outline: none; }
+.chip {
+  position: absolute; left: 0; top: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  padding: 24px 24px; background: transparent; color: #646464; text-align: center;
+  border-right: 1px solid #E8E8E8; border-bottom: 1px solid #E8E8E8; box-sizing: border-box;
+  font: 400 14px/20px "Inter", sans-serif; letter-spacing: 0;
+  backface-visibility: hidden; will-change: transform; visibility: hidden; cursor: pointer;
+  transition: color 300ms var(--ease-out), opacity 300ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.chip svg { width: 28px; height: 28px; color: #202020; flex: none; transition: color 300ms var(--ease-out); }
+/* RGB split: --ca is set per cell from its angle on the cylinder (signed, px) */
+.chip { --ca: 0; }
+.chip span {
+  text-shadow: calc(var(--ca) * -1px) 0 rgba(255, 2, 240, .45), calc(var(--ca) * 1px) 0 rgba(0, 145, 255, .45);
+}
+.chip svg {
+  filter: drop-shadow(calc(var(--ca) * -1px) 0 0 rgba(255, 2, 240, .45)) drop-shadow(calc(var(--ca) * 1px) 0 0 rgba(0, 145, 255, .45));
+}
+.chip span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 100%; }
+@media (hover: hover) and (pointer: fine) { .chip:hover { color: #202020; box-shadow: inset 0 0 0 1px #202020; } .chip:hover svg { color: #6647F0; } }
+@media (prefers-reduced-motion: reduce) { .chip span { text-shadow: none; } .chip svg { filter: none; } }
+/* filtering: fade the content only, so the grid lines stay whole; matches get a full outline */
+.chip > * { transition: opacity 300ms var(--ease-out), color 300ms var(--ease-out); }
+.hero__bg.is-filtering .chip:not(.is-hit) > * { opacity: .15; }
+.hero__bg.is-filtering .chip.is-hit { color: #202020; background: #FFFFFF; box-shadow: inset 0 0 0 1px #BBBBBB; }
+.hero__bg.is-filtering .chip.is-hit svg { color: #6647F0; }
+
+/* white veil so the title and search always read first */
+.hero__veil {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(in oklch ellipse 38% 44% at 50% 50%, #FFFFFF 62%, rgba(255, 255, 255, 0) 100%);
+}
+@media (max-width: 760px) {
+  .hero.section { min-height: 680px; padding-top: 48px; }
+  .hero__veil { background: radial-gradient(in oklch ellipse 70% 38% at 50% 46%, #FFFFFF 55%, rgba(255, 255, 255, 0) 100%); }
+  .chip { font-size: 12px; line-height: 16px; gap: 10px; padding: 16px; opacity: .6; }
+  .chip svg { width: 22px; height: 22px; }
+  .hero__bg.is-filtering .chip { opacity: 1; }
+  .hero__bg.is-filtering .chip:not(.is-hit) { opacity: .5; }
+}
