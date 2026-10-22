@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ClickUp Features</title>
-<meta name="description" content="Every ClickUp feature in one place. Search, filter by plan and hide everything else.">
+<meta name="description" content="Every ClickUp feature in one place. Search, filter by area and hide everything else.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&family=Inter:wght@400;500;600&family=Sometype+Mono:wght@500&display=swap" rel="stylesheet">
@@ -61,8 +61,7 @@ input { font: inherit; color: inherit; }
 .search.has-value .kbd { display: none; }
 .hero__tools { display: flex; flex-direction: column; align-items: center; gap: 24px; width: 100%; }
 
-/* Plan filter: pills */
-.plans { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+/* pills */
 .pill {
   display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 999px;
   background: var(--gray-100); color: var(--gray-900);
@@ -159,101 +158,6 @@ input { font: inherit; color: inherit; }
 @media (max-width: 760px) { .dv-tabs__row { grid-auto-columns: 82cqw; } .dv-tabs__nav { display: none; } }
 
 /* ------------------------------------------------------------------ */
-/* Coming soon: a real List view inside a gray card                   */
-/* ------------------------------------------------------------------ */
-.soon-card { padding: 56px 56px 0; position: relative; }
-.soon-card__frame { position: relative; max-height: 640px; overflow: hidden; transition: max-height 480ms var(--ease-in-out); }
-.soon-card:not(.is-open) .soon-card__frame { -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%); mask-image: linear-gradient(to bottom, #000 62%, transparent 100%); }
-.soon-card__more { display: flex; justify-content: center; padding: 8px 0 40px; position: relative; z-index: 1; }
-.soon-card:not(.is-open) .soon-card__more { margin-top: -72px; }
-@media (max-width: 760px) { .soon-card { padding: 24px 0 0 16px; } .soon-card__frame { max-height: 520px; } }
-
-.product {
-  --p-text: #202020; --p-meta: #838383; --p-line: #F0F0F0;
-  --s-building: #0091FF; --s-review: #F76808; --s-beta: #FFC53D; --s-rolling: #30A46C;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", system-ui, sans-serif;
-  letter-spacing: 0; color: var(--p-text); font-size: 14px; line-height: 20px;
-  background: #FFFFFF; border-radius: 12px 12px 0 0; box-shadow: var(--shadow-component);
-}
-.lv__bar { display: flex; align-items: center; gap: 10px; padding: 14px 20px 0; }
-.lv__space { width: 20px; height: 20px; border-radius: 6px; background: var(--purple); color: #FFFFFF; display: grid; place-items: center; }
-.lv__space svg { width: 12px; height: 12px; }
-.lv__title { font-weight: 600; font-size: 15px; }
-.lv__meta { margin-left: auto; color: var(--p-meta); font-size: 13px; }
-.lv__tabs { display: flex; gap: 18px; padding: 10px 20px 0; border-bottom: 1px solid var(--p-line); }
-.lv__tab { display: flex; align-items: center; gap: 6px; padding: 6px 0 9px; color: var(--p-meta); font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.lv__tab.is-on { color: var(--p-text); border-bottom-color: var(--p-text); }
-.lv__tab svg { width: 16px; height: 16px; }
-.lv__head { display: grid; grid-template-columns: minmax(0, 1fr) 160px 96px; gap: 16px; padding: 12px 20px 8px 60px; color: var(--p-meta); font-size: 12px; }
-.lv__group { padding: 10px 20px 4px; }
-.lv__ghead { display: flex; align-items: center; gap: 8px; padding: 6px 0 8px; }
-.st { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 8px; border-radius: 6px; color: #FFFFFF; font-size: 11.5px; font-weight: 600; text-transform: uppercase; }
-.st .dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; }
-.st--building { background: var(--s-building); } .st--in_review { background: var(--s-review); }
-.st--in_beta { background: var(--s-beta); color: #202020; } .st--rolling_out { background: var(--s-rolling); }
-.lv__count { color: var(--p-meta); }
-.lv__row {
-  display: grid; grid-template-columns: 20px minmax(0, 1fr) 160px 96px; gap: 16px; align-items: center; width: 100%;
-  min-height: 40px; padding: 0 0 0 20px; border-top: 1px solid var(--p-line); text-align: left;
-  transition: background-color 120ms var(--ease-out);
-}
-@media (hover: hover) and (pointer: fine) { .lv__row:hover { background: #F8F9FA; } }
-.lv__ring { width: 14px; height: 14px; border-radius: 50%; border: 2px dashed currentColor; }
-.lv__row[data-s="building"] .lv__ring { color: var(--s-building); }
-.lv__row[data-s="in_review"] .lv__ring { color: var(--s-review); border-style: solid; }
-.lv__row[data-s="in_beta"] .lv__ring { color: var(--s-beta); border-style: solid; }
-.lv__row[data-s="rolling_out"] .lv__ring { color: var(--s-rolling); border-style: solid; }
-.lv__name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lv__name small { color: var(--p-meta); font-size: 13px; margin-left: 6px; }
-.lv__tag { justify-self: start; max-width: 100%; padding: 1px 8px; border-radius: 6px; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lv__tag.t0 { background: var(--purple-light); color: var(--purple); } .lv__tag.t1 { background: var(--blue-light); color: #0091FF; }
-.lv__tag.t2 { background: var(--pink-light); color: #FF02F0; } .lv__tag.t3 { background: var(--orange-light); color: #FC6D2D; }
-.lv__date { color: var(--p-meta); font-size: 13px; font-variant-numeric: tabular-nums; }
-.lv__add { display: flex; align-items: center; gap: 8px; min-height: 36px; padding-left: 20px; border-top: 1px solid var(--p-line); color: var(--p-meta); }
-.lv__add svg { width: 14px; height: 14px; }
-@media (max-width: 760px) {
-  .lv__head { display: none; }
-  .lv__row { grid-template-columns: 20px minmax(0, 1fr); padding-right: 16px; }
-  .lv__tag, .lv__date { display: none; }
-}
-
-
-/* Coming soon: Board + Calendar views */
-.lv__tab { cursor: pointer; transition: color 160ms var(--ease-out); }
-@media (hover: hover) and (pointer: fine) { .lv__tab:not(.is-on):hover { color: var(--p-text); } }
-.bv { display: grid; grid-template-columns: repeat(4, minmax(200px, 1fr)); gap: 12px; padding: 16px 20px 20px; overflow-x: auto; align-items: start; }
-.bv__col { background: #F8F9FA; border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.bv__head { display: flex; align-items: center; gap: 8px; padding: 4px 4px 2px; }
-.bv__card { display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 10px; background: #FFFFFF; text-align: left; box-shadow: 0 0 0 1px rgba(79,79,79,.08), 0 1px 2px rgba(79,79,79,.06); transition: box-shadow 160ms var(--ease-out); }
-@media (hover: hover) and (pointer: fine) { .bv__card:hover { box-shadow: 0 0 0 1px rgba(79,79,79,.14), 0 4px 12px -4px rgba(79,79,79,.18); } }
-.bv__name { font-weight: 500; }
-.bv__meta { color: var(--p-meta); font-size: 12.5px; }
-.bv__foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; min-width: 0; }
-.bv__add { color: var(--p-meta); padding: 6px 6px 2px; }
-.cv { padding: 16px 20px 20px; }
-.cv__title { font-weight: 600; font-size: 15px; padding-bottom: 12px; }
-.cv__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 1px solid var(--p-line); border-left: 1px solid var(--p-line); }
-.cv__dow { padding: 6px 8px; color: var(--p-meta); font-size: 12px; border-right: 1px solid var(--p-line); border-bottom: 1px solid var(--p-line); }
-.cv__day { min-height: 112px; padding: 6px; display: flex; flex-direction: column; gap: 3px; border-right: 1px solid var(--p-line); border-bottom: 1px solid var(--p-line); min-width: 0; }
-.cv__day.is-out { background: #F8F9FA; }
-.cv__day.is-out .cv__n { color: #BBBBBB; }
-.cv__n { font-size: 12px; color: var(--p-meta); padding: 0 2px 2px; align-self: flex-start; min-width: 22px; height: 22px; display: grid; place-items: center; border-radius: 999px; }
-.cv__day.is-today .cv__n { background: #6647F0; color: #FFFFFF; font-weight: 600; }
-.cv__ev { display: block; width: 100%; text-align: left; font-size: 12px; line-height: 18px; padding: 1px 6px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: #F8F9FA; box-shadow: inset 3px 0 0 var(--c); }
-.cv__ev[data-s="building"] { --c: #0091FF; } .cv__ev[data-s="in_review"] { --c: #F76808; } .cv__ev[data-s="in_beta"] { --c: #FFC53D; } .cv__ev[data-s="rolling_out"] { --c: #30A46C; }
-@media (hover: hover) and (pointer: fine) { .cv__ev:hover { background: #F0F0F0; } }
-.cv__more { text-align: left; font-size: 12px; color: var(--p-meta); padding: 1px 6px; }
-@media (hover: hover) and (pointer: fine) { .cv__more:hover { color: var(--p-text); } }
-.cv__rest { display: none; flex-direction: column; gap: 3px; }
-.cv__day.is-expanded .cv__rest { display: flex; }
-.cv__legend { padding-top: 14px; }
-.cv__legend i.st--building { background: #0091FF; } .cv__legend i.st--in_review { background: #F76808; } .cv__legend i.st--in_beta { background: #FFC53D; } .cv__legend i.st--rolling_out { background: #30A46C; }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--p-meta); font-size: 12px; }
-.legend span { display: inline-flex; align-items: center; gap: 6px; }
-.legend i { width: 8px; height: 8px; border-radius: 2px; }
-@media (max-width: 760px) { .bv { grid-template-columns: repeat(4, 240px); padding: 12px; } .cv { padding: 12px 12px 16px; } .cv__day { min-height: 72px; padding: 3px; } .cv__ev { font-size: 0; height: 6px; padding: 0; } .cv__more { font-size: 10px; padding: 0 2px; } }
-
-/* ------------------------------------------------------------------ */
 /* Catalog                                                             */
 /* ------------------------------------------------------------------ */
 .toolbar {
@@ -266,7 +170,6 @@ input { font: inherit; color: inherit; }
 .toolbar.is-on { transform: none; opacity: 1; pointer-events: auto; }
 .toolbar__inner { max-width: 1280px; margin: 0 auto; padding: 10px 32px; display: flex; align-items: center; gap: 16px; }
 .toolbar .search { height: 44px; width: 360px; flex: none; border-radius: 12px; padding-left: 14px; }
-.toolbar .plans { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; justify-content: flex-start; }
 .toolbar .pill { height: 32px; white-space: nowrap; }
 .toolbar__count { margin-left: auto; color: var(--gray-500); white-space: nowrap; }
 .toolbar .cfilter__select select { height: 36px; }
@@ -287,14 +190,12 @@ input { font: inherit; color: inherit; }
 .feats { background: var(--gray-50); border-radius: 24px; padding: 6px; display: flex; flex-direction: column; }
 .fi { position: relative; border-radius: 18px; transition: background-color 160ms var(--ease-out); }
 .fi + .fi::before { content: ""; position: absolute; top: 0; left: 64px; right: 20px; height: 1px; background: var(--line); transition: opacity 160ms var(--ease-out); }
-.fi__main { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto 16px; align-items: center; gap: 16px; width: 100%; padding: 16px 20px 16px 16px; text-align: left; border-radius: 18px; }
+.fi__main { display: grid; grid-template-columns: 32px minmax(0, 1fr) 16px; align-items: center; gap: 16px; width: 100%; padding: 16px 20px 16px 16px; text-align: left; border-radius: 18px; }
 .fi__icon { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; color: var(--gray-900); background: #FFFFFF; box-shadow: 0 0 0 1px rgba(79, 79, 79, .08); }
 .fi__icon .ico { width: 18px; height: 18px; }
 .fi__txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .fi__name { display: flex; align-items: center; gap: 8px; color: var(--gray-900); }
 .fi__desc { color: var(--gray-700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fi__plan .tag { background: #FFFFFF; box-shadow: 0 0 0 1px rgba(79, 79, 79, .08); }
-.fi__all { color: var(--gray-500); }
 .fi__chev { color: var(--gray-300); transition: transform 200ms var(--ease-out), color 160ms var(--ease-out); }
 .fi__toggle { display: inline-flex; align-items: center; gap: 4px; margin: -8px 0 12px 64px; padding: 4px 8px 4px 4px; border-radius: 999px; color: var(--gray-700); transition: background-color 140ms var(--ease-out), color 140ms var(--ease-out); }
 .fi__toggle .ico-16 { color: var(--gray-500); transition: transform 240ms var(--ease-out); }
@@ -317,7 +218,6 @@ input { font: inherit; color: inherit; }
 @media (max-width: 760px) {
   .feats { border-radius: 20px; padding: 4px; }
   .fi__main { grid-template-columns: 32px minmax(0, 1fr) 16px; gap: 12px; padding: 14px 12px; }
-  .fi__plan { display: none; }
   .fi__desc { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
   .fi + .fi::before { left: 56px; right: 12px; }
   .fi__toggle { margin-left: 56px; }
@@ -334,19 +234,49 @@ mark { background: var(--purple-light); color: inherit; border-radius: 3px; }
 .empty[hidden] { display: none; }
 
 /* ------------------------------------------------------------------ */
-/* CTA: Build it with Brain (AI highlight, white background)          */
+/* CTA: dark card, text left, the app tilted on the right, rising out of the top */
 /* ------------------------------------------------------------------ */
-.cta .section__content { display: flex; flex-direction: column; align-items: center; gap: 40px; }
-.composer.ai-highlight::before { opacity: .55; filter: blur(24px); }
-.composer { width: min(720px, 100%); padding: 20px 20px 14px; display: flex; flex-direction: column; gap: 20px; text-align: left; }
-.composer__text { min-height: 56px; color: var(--gray-900); }
-.composer__text .caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 1px; vertical-align: -3px; background: var(--gray-900); animation: blink 1s steps(1) infinite; }
-@keyframes blink { 50% { opacity: 0; } }
-.composer__bar { display: flex; align-items: center; gap: 8px; color: var(--gray-700); }
-.composer__bar .tag { height: 28px; }
-.composer__send { margin-left: auto; width: 36px; height: 36px; border-radius: 12px; background: var(--gray-900); color: #FFFFFF; display: grid; place-items: center; }
-.composer__send svg { width: 18px; height: 18px; }
-.cta__actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.cta { padding-top: 200px; }
+.cta__card {
+  position: relative; display: grid; grid-template-columns: minmax(0, 520px) 1fr; align-items: center; min-height: 340px;
+  padding: 64px; border-radius: 32px; background: var(--gray-900); color: #FFFFFF;
+  /* the visual may leave the card through the top only */
+  clip-path: inset(-200px 0 0 0 round 0 0 32px 32px);
+  container-type: inline-size;
+}
+.cta__text { position: relative; z-index: 1; gap: 24px; }
+.cta__text .block__text { gap: 12px; }
+.cta__text h2 { color: #FFFFFF; text-wrap: balance; }
+.cta__text h2 .t-gray { color: var(--gray-500); }
+.cta__text .subtitle { color: var(--gray-300); }
+.cta__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn--light { background: #FFFFFF; color: var(--gray-900); }
+.btn--ghost { background: rgba(255, 255, 255, .1); color: #FFFFFF; }
+@media (hover: hover) and (pointer: fine) { .btn--ghost:hover { background: rgba(255, 255, 255, .16); } }
+.cta__visual {
+  /* the app rises out of the top of the card and runs on past its bottom and right edges (cut by the card) */
+  --rise: 150px; --x: 640px; --fade-end: .65; /* opacity left at the right edge */
+  position: absolute; left: var(--x); top: calc(var(--rise) * -1); width: 840px; pointer-events: none;
+  /* right edge: fade toward the card's right edge (cqw is the content box: add the 2 x 64px padding back).
+     Inside the card it keeps --fade-end opacity; above the card (on the white page) it fades out completely. */
+  --edge: calc(100cqw + 128px - var(--x));
+  -webkit-mask:
+    linear-gradient(to right, #000 calc(var(--edge) - 220px), rgba(0, 0, 0, var(--fade-end)) var(--edge)),
+    linear-gradient(to right, #000 calc(var(--edge) - 220px), transparent var(--edge)) top / 100% var(--rise) no-repeat,
+    linear-gradient(#000, #000) bottom / 100% calc(100% - var(--rise)) no-repeat;
+  -webkit-mask-composite: source-in, source-over;
+  mask:
+    linear-gradient(to right, #000 calc(var(--edge) - 220px), rgba(0, 0, 0, var(--fade-end)) var(--edge)),
+    linear-gradient(to right, #000 calc(var(--edge) - 220px), transparent var(--edge)) top / 100% var(--rise) no-repeat,
+    linear-gradient(#000, #000) bottom / 100% calc(100% - var(--rise)) no-repeat;
+  mask-composite: intersect, add;
+}
+.cta__visual img { display: block; width: 100%; height: auto; }
+@media (max-width: 960px) {
+  .cta { padding-top: 120px; }
+  .cta__card { grid-template-columns: minmax(0, 1fr); padding: 48px 24px 0; min-height: 0; }
+  .cta__visual { position: relative; top: auto; left: auto; width: calc(100% + 96px); margin: 40px -24px -80px 0; -webkit-mask: none; mask: none; }
+}
 
 /* Footer */
 .footer { border-top: 1px solid var(--line); }
@@ -428,20 +358,6 @@ mark { background: var(--purple-light); color: inherit; border-radius: 3px; }
 .fs__icon { width: 56px; height: 56px; border-radius: 16px; background: var(--gray-50); color: var(--gray-900); display: grid; place-items: center; }
 .fs__icon .ico { width: 26px; height: 26px; }
 .fs__desc, .fs__summary { color: var(--gray-700); }
-.fs__card { background: var(--gray-50); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
-.fs__card-head { display: flex; flex-direction: column; gap: 2px; }
-.fs__card-head span { color: var(--gray-700); }
-.ladder { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-.ladder__step { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.ladder__step i { height: 6px; border-radius: 3px; background: var(--line); margin-bottom: 6px; }
-.ladder__step.is-yes i { background: var(--purple); }
-.ladder__step.is-limited i, .ladder__step.is-trial i, .ladder__step.is-addon i { background: var(--purple-mid); }
-.ladder__step > span { color: var(--gray-900); }
-.ladder__step > .ladder__v, .ladder__step > .ladder__lim { color: var(--gray-500); }
-.ladder__step.is-no > span:first-of-type, .ladder__step.is-unknown > span:first-of-type { color: var(--gray-500); }
-.ladder__step.is-cur > span:first-of-type { color: var(--purple); }
-.fs__extra { color: var(--gray-500); margin-top: -8px; }
-.fs__status { display: flex; align-items: center; gap: 12px; background: transparent; box-shadow: none; color: #838383; font-size: 13px; }
 .facts > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
 .facts dt { color: var(--gray-500); }
 .facts dd { margin: 0; color: var(--gray-900); min-width: 0; }
@@ -465,8 +381,9 @@ mark { background: var(--purple-light); color: inherit; border-radius: 3px; }
 .fs__tags { padding-top: 16px; }
 .sheet__foot { display: flex; align-items: center; gap: 8px; padding: 14px 28px; border-top: 1px solid var(--line); background: #FFFFFF; }
 .sheet__foot:empty { display: none; }
-.fs__copy { margin-left: auto; }
-@media (max-width: 560px) { .sheet__foot { padding: 12px 16px; } .fs__copy span { display: none; } .facts > div { grid-template-columns: 96px minmax(0, 1fr); } }
+.fs__help { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; color: var(--gray-700); text-decoration: none; transition: color 140ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .fs__help:hover { color: var(--gray-900); } }
+@media (max-width: 560px) { .sheet__foot { padding: 12px 16px; } .facts > div { grid-template-columns: 96px minmax(0, 1fr); } }
 
 
 /* category colour code (--acc / --acc-soft set per category) */
@@ -480,9 +397,6 @@ mark { background: var(--purple-light); color: inherit; border-radius: 3px; }
 .sheet .sheet__crumb .ico-16, .sheet .facts dd a .ico-16:first-child { color: var(--acc); }
 .sheet .fs__list-ico { background: var(--acc-soft); color: var(--acc); box-shadow: none; }
 .sheet .fs__head .eyebrow { color: var(--acc, var(--purple)); }
-.sheet .ladder__step.is-yes i { background: var(--acc, var(--purple)); }
-.sheet .ladder__step.is-limited i, .sheet .ladder__step.is-trial i, .sheet .ladder__step.is-addon i { background: var(--acc, var(--purple-mid)); opacity: .4; }
-.sheet .ladder__step.is-cur > span:first-of-type { color: var(--acc, var(--purple)); }
 .sg__row[style] .sg__ico { background: var(--acc-soft); color: var(--acc); }
 .sg__row[style][aria-selected="true"] .sg__ico { background: var(--acc-soft); box-shadow: none; }
 
@@ -504,7 +418,7 @@ mark { background: var(--purple-light); color: inherit; border-radius: 3px; }
 .catalog .cfilter + .section__content { margin-top: 32px; }
 @media (max-width: 760px) { .cfilter { flex-direction: column; align-items: stretch; gap: 8px; } .cfilter__side { justify-content: space-between; } }
 
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .composer__text .caret { animation: none; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
 </head>
 <body>
@@ -518,7 +432,6 @@ __SPRITE__
       <a href="https://clickup.com/features" aria-current="page">Product</a>
       <a href="https://clickup.com/teams">Solutions</a>
       <a href="https://clickup.com/resources">Learn</a>
-      <a href="https://clickup.com/pricing">Pricing</a>
       <a href="https://clickup.com/enterprise">Enterprise</a>
     </nav>
     <div class="nav__actions">
@@ -538,7 +451,6 @@ __SPRITE__
       <button class="search__clear" type="button" aria-label="Clear search" tabindex="-1"><svg class="ico-16"><use href="#cu3-icon-closeSmall"/></svg></button>
     </label>
     <label class="cfilter__select text-sm medium"><span class="vh">Area</span><select data-area-select tabindex="-1"></select><svg class="ico-16" aria-hidden="true"><use href="#cu3-icon-chevronRight"/></svg></label>
-    <label class="cfilter__select text-sm medium"><span class="vh">Plan</span><select data-plan-select tabindex="-1"><option value="all">All plans</option><option value="free">Free</option><option value="unlimited">Unlimited</option><option value="business">Business</option><option value="business_plus">Business Plus</option><option value="enterprise">Enterprise</option></select><svg class="ico-16" aria-hidden="true"><use href="#cu3-icon-chevronRight"/></svg></label>
     <button class="cfilter__clear text-sm medium" type="button" data-clear hidden tabindex="-1">Clear</button>
     <span class="toolbar__count text-sm" data-count></span>
   </div>
@@ -562,7 +474,6 @@ __SPRITE__
             <button class="search__clear" type="button" aria-label="Clear search"><svg class="ico-16"><use href="#cu3-icon-closeSmall"/></svg></button>
             <span class="kbd text-xs medium" aria-hidden="true">⌘K</span>
           </label>
-          <div class="plans text-sm medium" data-plans role="group" aria-label="Filter by plan"></div>
         </div>
       </header>
 
@@ -585,44 +496,18 @@ __SPRITE__
     </div>
   </section>
 
-  <!-- Coming soon --------------------------------------------------- -->
-  <section class="section" id="coming-soon">
-    <div class="section__inner">
-      <header class="section__header block">
-        <span class="mono-sm eyebrow">Next up</span>
-        <div class="block__text">
-          <h2 class="display-xl"><span class="t-dark">What our teams are building.</span><br><span class="t-gray">__SOON__ features on the way.</span></h2>
-          <p class="text-lg subtitle">Names, dates and plans may change before launch.</p>
-        </div>
-      </header>
-      <div class="section__content">
-        <div class="card soon-card" id="soonCard">
-          <div class="soon-card__frame">
-            <div class="product" id="soonList"></div>
-          </div>
-          <div class="soon-card__more">
-            <button class="btn btn--secondary button-md" type="button" id="soonToggle" aria-expanded="false">Show all __SOON__</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Catalog ------------------------------------------------------- -->
   <section class="section catalog" id="catalog" aria-labelledby="catalogTitle">
     <div class="section__inner">
       <header class="section__header block">
         <span class="mono-sm eyebrow">Every feature</span>
         <div class="block__text">
-          <h2 class="display-xl" id="catalogTitle"><span class="t-dark"><span data-count-n>__TOTAL__</span> features, one catalog.</span><br><span class="t-gray">Open any feature for plans and details.</span></h2>
+          <h2 class="display-xl" id="catalogTitle"><span class="t-dark"><span data-count-n>__TOTAL__</span> features, one catalog.</span><br><span class="t-gray">Open any feature for the details.</span></h2>
         </div>
       </header>
       <div class="cfilter" id="cfilter" role="group" aria-label="Filter the catalog">
         <div class="cfilter__areas" id="cfAreas"></div>
         <div class="cfilter__side">
-          <label class="cfilter__select text-sm medium"><span class="vh">Plan</span>
-            <select id="cfPlan" data-plan-select><option value="all">All plans</option><option value="free">Free</option><option value="unlimited">Unlimited</option><option value="business">Business</option><option value="business_plus">Business Plus</option><option value="enterprise">Enterprise</option></select><svg class="ico-16" aria-hidden="true"><use href="#cu3-icon-chevronRight"/></svg>
-          </label>
           <button class="cfilter__clear text-sm medium" type="button" id="cfClear" hidden>Clear</button>
         </div>
       </div>
@@ -632,7 +517,7 @@ __SPRITE__
       <header class="section__header block">
         <span class="mono-sm eyebrow gray">No match</span>
         <div class="block__text">
-          <h2 class="display-md"><span class="t-dark">Nothing matches that yet.</span><br><span class="t-gray">Try another word, or build it yourself.</span></h2>
+          <h2 class="display-md"><span class="t-dark">Nothing matches that yet.</span><br><span class="t-gray">Try another word or clear the filters.</span></h2>
         </div>
         <button class="btn btn--secondary button-md" type="button" id="reset">Clear filters</button>
       </header>
@@ -642,26 +527,18 @@ __SPRITE__
   <!-- CTA ----------------------------------------------------------- -->
   <section class="section cta" id="build">
     <div class="section__inner">
-      <header class="section__header block">
-        <span class="mono-sm eyebrow">Can't find it?</span>
-        <div class="block__text">
-          <h2 class="display-xl"><span class="t-dark">Missing a feature?</span><br><span class="t-gray">Build it with Brain.</span></h2>
-          <p class="text-lg subtitle">Describe the app, tracker or dashboard you need and Brain builds a working Artifact you can share with your team.</p>
-        </div>
-      </header>
-      <div class="section__content">
-        <div class="composer ai-highlight" aria-hidden="true">
-          <p class="composer__text text-lg" id="typer"></p>
-          <div class="composer__bar">
-            <span class="tag"><svg class="ico-16"><use href="#cu3-icon-skillSparkle"/></svg>Artifact</span>
-            <span class="ibtn"><svg class="ico"><use href="#cu3-icon-attachment"/></svg></span>
-            <span class="composer__send"><svg><use href="#cu3-icon-send"/></svg></span>
+      <div class="cta__card">
+        <div class="cta__text block">
+          <div class="block__text">
+            <h2 class="display-xl"><span>Every feature you need.</span><br><span class="t-gray">Ready when you are.</span></h2>
+            <p class="text-lg subtitle">Bring your tasks, docs, chat and AI into one app and turn on only what your team uses.</p>
+          </div>
+          <div class="cta__actions">
+            <a class="btn btn--light button-md" href="https://app.clickup.com/signup">Get started</a>
+            <a class="btn btn--ghost button-md" href="https://clickup.com/demo">Book a demo</a>
           </div>
         </div>
-        <div class="cta__actions">
-          <a class="btn button-md" href="https://app.clickup.com/signup">Get started. It's free</a>
-          <a class="btn btn--secondary button-md" href="https://clickup.com/demo">Book a demo</a>
-        </div>
+        <div class="cta__visual" aria-hidden="true"><img src="__CTAIMG__" alt="" width="1440" height="1000" loading="lazy" decoding="async"></div>
       </div>
     </div>
   </section>
@@ -672,7 +549,6 @@ __SPRITE__
     __LOGO__
     <span>© 2026 ClickUp</span>
     <nav aria-label="Footer">
-      <a href="https://clickup.com/pricing">Pricing</a>
       <a href="https://help.clickup.com">Help Center</a>
       <a href="https://clickup.com/security">Security</a>
       <a href="https://clickup.com/terms">Terms</a>
@@ -700,22 +576,6 @@ const CATS = __CATS__;
 const F = __FEATURES__;
 
 /* ---------------- data ---------------- */
-const PLANS = [
-  { id: "all", label: "All plans" },
-  { id: "free", label: "Free" },
-  { id: "unlimited", label: "Unlimited" },
-  { id: "business", label: "Business" },
-  { id: "business_plus", label: "Business Plus" },
-  { id: "enterprise", label: "Enterprise" },
-];
-const LADDER = ["free", "unlimited", "business", "business_plus", "enterprise"];
-const PLAN_NAME = { free: "Free", unlimited: "Unlimited", business: "Business", business_plus: "Business Plus", enterprise: "Enterprise", core: "Core", max: "Max" };
-const STATES = [
-  { id: "in_beta", label: "In beta" },
-  { id: "rolling_out", label: "Rolling out" },
-  { id: "in_review", label: "In review" },
-  { id: "building", label: "Building" },
-];
 const byId = new Map(F.map(f => [f.id, f]));
 const catById = new Map(CATS.map(c => [c.id, c]));
 const children = new Map();
@@ -728,24 +588,16 @@ const live = F.filter(f => f.status !== "coming_soon");
 const ACCENTS = [["#6647F0", "#EFEDFD"], ["#0091FF", "#EDF6FD"], ["#FF02F0", "#FEECFC"], ["#FC6D2D", "#FDEDE7"], ["#078D3B", "#E2F8EC"], ["#5239F5", "#E1E3FD"], ["#F0382D", "#FBDDDD"]];
 const ACC = new Map(CATS.map((c, i) => [c.id, ACCENTS[i % ACCENTS.length]]));
 const acc = id => { const [c, soft] = ACC.get(id) || ACCENTS[0]; return `--acc:${c};--acc-soft:${soft}`; };
-const soon = F.filter(f => f.status === "coming_soon");
 F.forEach(f => { f._hay = [f.feature, f.description, f.surface, (f.tags || []).join(" "), catById.get(f.category)?.name].join(" ").toLowerCase(); });
 
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const icon = (n, cls = "ico") => `<svg class="${cls}" aria-hidden="true"><use href="#cu3-icon-${n}"/></svg>`;
-function minPlan(f) {
-  const p = LADDER.find(p => f.plans.includes(p));
-  if (p === "free") return null;
-  if (p) return PLAN_NAME[p] + "+";
-  return f.plans[0] ? PLAN_NAME[f.plans[0]] || f.plans[0] : null;
-}
 function hl(text, q) {
   const t = esc(text);
   if (!q) return t;
   const i = t.toLowerCase().indexOf(esc(q).toLowerCase());
   return i < 0 ? t : t.slice(0, i) + "<mark>" + t.slice(i, i + esc(q).length) + "</mark>" + t.slice(i + esc(q).length);
 }
-const fmtDate = d => new Date(d + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
 /* ---------------- open grid ---------------- */
 function colsOf(el) { return getComputedStyle(el).gridTemplateColumns.split(" ").filter(Boolean).length; }
@@ -772,9 +624,8 @@ let rsz;
 addEventListener("resize", () => { clearTimeout(rsz); rsz = setTimeout(() => grids.forEach(lineUp), 120); });
 
 /* ---------------- state ---------------- */
-const state = { q: "", plan: "all", area: "all" };
+const state = { q: "", area: "all" };
 function matches(f) {
-  if (state.plan !== "all" && !f.plans.includes(state.plan)) return false;
   if (state.area !== "all" && catById.get(f.category).area.id !== state.area) return false;
   if (state.q && !f._hay.includes(state.q.toLowerCase())) return false;
   return true;
@@ -833,81 +684,6 @@ document.getElementById("dir").addEventListener("click", e => {
 document.getElementById("dir").addEventListener("scroll", e => { if (e.target.classList && (e.target.classList.contains("dv-tabs__row") || e.target.classList.contains("df-under__track"))) syncDirNav(); }, true);
 addEventListener("resize", syncDirNav);
 
-/* ---------------- render: coming soon (List view) ---------------- */
-let soonView = "list";
-function renderSoon() {
-  const el = document.getElementById("soonList");
-  const list = soon.filter(f => !state.q || f._hay.includes(state.q.toLowerCase()));
-  const byState = id => list.filter(f => f.coming_soon.state === id).sort((a, b) => b.coming_soon.last_activity.localeCompare(a.coming_soon.last_activity));
-  const tag = f => `<span class="lv__tag" style="${acc(f.category)}">${esc(catById.get(f.category).name)}</span>`;
-  const tabs = [["list", "listView", "List"], ["board", "boardView", "Board"], ["calendar", "calendarView", "Calendar"]];
-  let html = `<div class="lv__bar"><span class="lv__space">${icon("listView")}</span><span class="lv__title">Coming soon</span><span class="lv__meta">${list.length} ${list.length === 1 ? "task" : "tasks"}</span></div>
-    <div class="lv__tabs" role="tablist" aria-label="View">${tabs.map(([id, ic, label]) => `<button class="lv__tab${soonView === id ? " is-on" : ""}" type="button" role="tab" aria-selected="${soonView === id}" data-view="${id}">${icon(ic)}${label}</button>`).join("")}</div>`;
-
-  if (soonView === "list") {
-    html += `<div class="lv__head"><span>Name</span><span>Category</span><span>Updated</span></div>`;
-    STATES.forEach(s => {
-      const rows = byState(s.id);
-      if (!rows.length) return;
-      html += `<div class="lv__group"><div class="lv__ghead"><span class="st st--${s.id}"><span class="dot"></span>${s.label}</span><span class="lv__count">${rows.length}</span></div>`;
-      html += rows.map(f => `<button class="lv__row" type="button" data-s="${s.id}" data-open="${f.id}"><span class="lv__ring"></span><span class="lv__name">${hl(f.feature, state.q)}<small>${esc(f.surface)}</small></span>${tag(f)}<span class="lv__date">${fmtDate(f.coming_soon.last_activity)}</span></button>`).join("");
-      html += `</div>`;
-    });
-    html += `<div class="lv__add">+&nbsp;&nbsp;Add task</div>`;
-  }
-
-  if (soonView === "board") {
-    html += `<div class="bv">${STATES.map(s => {
-      const cards = byState(s.id);
-      return `<div class="bv__col bv__col--${s.id}"><div class="bv__head"><span class="st st--${s.id}"><span class="dot"></span>${s.label}</span><span class="lv__count">${cards.length}</span></div>
-        ${cards.map(f => `<button class="bv__card" type="button" data-open="${f.id}"><span class="bv__name">${hl(f.feature, state.q)}</span><span class="bv__meta">${esc(f.surface)}</span><span class="bv__foot">${tag(f)}<span class="lv__date">${fmtDate(f.coming_soon.last_activity)}</span></span></button>`).join("")}
-        <div class="bv__add">+&nbsp;&nbsp;Add task</div></div>`;
-    }).join("")}</div>`;
-  }
-
-  if (soonView === "calendar") {
-    // month of the most recent activity, weeks start on Sunday like ClickUp
-    const last = list.map(f => f.coming_soon.last_activity).sort().pop() || soon.map(f => f.coming_soon.last_activity).sort().pop();
-    const [Y, M] = last.split("-").map(Number);
-    const first = new Date(Y, M - 1, 1), start = new Date(Y, M - 1, 1 - first.getDay());
-    const end = new Date(Y, M, 0); const days = Math.ceil((end - start) / 864e5 + 1); const weeks = Math.ceil(days / 7);
-    const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    const today = iso(new Date());
-    html += `<div class="cv"><div class="cv__title">${first.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</div>
-      <div class="cv__grid">${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(d => `<span class="cv__dow">${d}</span>`).join("")}`;
-    for (let k = 0; k < weeks * 7; k++) {
-      const d = new Date(start); d.setDate(start.getDate() + k);
-      const key = iso(d), items = list.filter(f => f.coming_soon.last_activity === key);
-      const shown = items.slice(0, 3);
-      html += `<div class="cv__day${d.getMonth() !== M - 1 ? " is-out" : ""}${key === today ? " is-today" : ""}" data-day="${key}"><span class="cv__n">${d.getDate()}</span>
-        ${shown.map(f => `<button class="cv__ev" type="button" data-s="${f.coming_soon.state}" data-open="${f.id}" title="${esc(f.feature)}">${hl(f.feature, state.q)}</button>`).join("")}
-        ${items.length > 3 ? `<button class="cv__more" type="button" data-more="${key}">+${items.length - 3} more</button><div class="cv__rest">${items.slice(3).map(f => `<button class="cv__ev" type="button" data-s="${f.coming_soon.state}" data-open="${f.id}" title="${esc(f.feature)}">${hl(f.feature, state.q)}</button>`).join("")}</div>` : ""}
-      </div>`;
-    }
-    html += `</div><div class="legend cv__legend">${STATES.map(s => `<span><i class="st--${s.id}"></i>${s.label}</span>`).join("")}</div></div>`;
-  }
-
-  el.innerHTML = html;
-  document.getElementById("coming-soon").hidden = list.length === 0 || state.plan !== "all";
-  const card = document.getElementById("soonCard");
-  if (card.classList.contains("is-open")) { const fr = card.querySelector(".soon-card__frame"); fr.style.maxHeight = fr.scrollHeight + "px"; }
-}
-document.getElementById("soonList").addEventListener("click", e => {
-  const t = e.target.closest("[data-view]");
-  if (t) { const kb = e.detail === 0; soonView = t.dataset.view; renderSoon(); if (kb) document.querySelector(`#soonList [data-view="${soonView}"]`).focus({ preventScroll: true }); return; }
-  const m = e.target.closest("[data-more]");
-  if (m) { const day = m.closest(".cv__day"); day.classList.toggle("is-expanded"); m.textContent = day.classList.contains("is-expanded") ? "Show less" : `+${day.querySelectorAll(".cv__rest .cv__ev").length} more`;
-    const card = document.getElementById("soonCard"); if (card.classList.contains("is-open")) { const fr = card.querySelector(".soon-card__frame"); fr.style.maxHeight = fr.scrollHeight + "px"; } }
-});
-document.getElementById("soonToggle").addEventListener("click", e => {
-  const card = document.getElementById("soonCard"), frame = card.querySelector(".soon-card__frame");
-  const open = !card.classList.contains("is-open");
-  if (open) { frame.style.maxHeight = frame.scrollHeight + "px"; card.classList.add("is-open"); }
-  else { frame.style.maxHeight = ""; card.classList.remove("is-open"); card.scrollIntoView({ block: "start" }); }
-  e.currentTarget.setAttribute("aria-expanded", open);
-  e.currentTarget.textContent = open ? "Show less" : `Show all ${soon.length}`;
-});
-
 /* ---------------- render: catalog ---------------- */
 const catsEl = document.getElementById("cats");
 function buildCats() {
@@ -937,17 +713,15 @@ const badgeOf = f => f.status === "beta" ? `<span class="tag tag--accent">Beta</
 // grouped list (settings-style): one row per main feature, sub-features fold out underneath
 const openParents = new Set();
 function featCell(f, subs = []) {
-  const plan = minPlan(f);
   const open = openParents.has(f.id);
   return `<li class="fi${open ? " is-open" : ""}">
     <button class="fi__main" type="button" data-open="${f.id}">
       <span class="fi__icon">${icon(f.icon_resolved)}</span>
       <span class="fi__txt"><span class="fi__name text-md medium">${hl(f.feature, state.q)}${badgeOf(f)}</span><span class="fi__desc text-sm">${hl(f.description, state.q)}</span></span>
-      <span class="fi__plan">${plan ? `<span class="tag">${plan}</span>` : `<span class="fi__all text-xs">All plans</span>`}</span>
       ${icon("chevronRight", "ico-16 fi__chev")}
     </button>
     ${subs.length ? `<button class="fi__toggle text-xs medium" type="button" data-toggle="${f.id}" aria-expanded="${open}">${icon("chevronRight", "ico-16")}${subs.length} sub-feature${subs.length === 1 ? "" : "s"}</button>
-      <ul class="fi__kids">${subs.map(k => `<li><button type="button" data-open="${k.id}">${icon(k.icon_resolved, "ico-16")}<span class="fi__kname text-sm medium">${hl(k.feature, state.q)}</span><span class="fi__kdesc text-sm">${hl(k.description, state.q)}</span>${minPlan(k) && minPlan(k) !== plan ? `<span class="tag">${minPlan(k)}</span>` : ""}</button></li>`).join("")}</ul>` : ""}
+      <ul class="fi__kids">${subs.map(k => `<li><button type="button" data-open="${k.id}">${icon(k.icon_resolved, "ico-16")}<span class="fi__kname text-sm medium">${hl(k.feature, state.q)}</span><span class="fi__kdesc text-sm">${hl(k.description, state.q)}</span></button></li>`).join("")}</ul>` : ""}
   </li>`;
 }
 let visible = [];
@@ -975,31 +749,28 @@ function render() {
   });
   renderDir(counts);
   renderCatFilter();
-  renderSoon();
   const total = visible.length;
   document.getElementById("empty").hidden = total > 0;
   document.querySelectorAll("[data-count]").forEach(e => e.textContent = `${total} ${total === 1 ? "feature" : "features"}`);
   document.querySelectorAll("[data-count-n]").forEach(e => e.textContent = total);
 
   cylUpdate && cylUpdate();
-  document.querySelectorAll("[data-plans]").forEach(g => g.querySelectorAll(".pill").forEach(p => p.setAttribute("aria-pressed", p.dataset.plan === state.plan)));
   document.querySelectorAll("[data-search]").forEach(s => s.classList.toggle("has-value", !!state.q));
 }
 
 /* ---------------- catalog filter ---------------- */
 function renderCatFilter() {
-  const base = live.filter(f => (state.plan === "all" || f.plans.includes(state.plan)) && (!state.q || f._hay.includes(state.q.toLowerCase())));
+  const base = live.filter(f => (!state.q || f._hay.includes(state.q.toLowerCase())));
   const per = new Map(); base.forEach(f => { const a = catById.get(f.category).area.id; per.set(a, (per.get(a) || 0) + 1); });
   document.getElementById("cfAreas").innerHTML = [["all", "All areas", base.length], ...AREAS.map(a => [a.id, a.name, per.get(a.id) || 0])]
     .map(([id, label, n]) => `<button class="pill pill--sm text-sm medium" type="button" data-area-f="${id}" aria-pressed="${state.area === id}"${n || id === "all" ? "" : " disabled"}>${esc(label)}<span>${n}</span></button>`).join("");
   const on = document.querySelector(`#cfAreas [data-area-f="${state.area}"]`), box = document.getElementById("cfAreas");
   if (on && state.area !== "all") box.scrollLeft = on.offsetLeft - box.clientWidth / 2 + on.offsetWidth / 2;
-  document.querySelectorAll("[data-plan-select]").forEach(x => x.value = state.plan);
   document.querySelectorAll("[data-area-select]").forEach(x => {
     if (!x.options.length) x.innerHTML = `<option value="all">All areas</option>` + AREAS.map(a => `<option value="${a.id}">${esc(a.name)}</option>`).join("");
     x.value = state.area;
   });
-  const clean = state.area === "all" && state.plan === "all" && !state.q;
+  const clean = state.area === "all" && !state.q;
   document.getElementById("cfClear").hidden = clean;
   document.querySelectorAll("[data-clear]").forEach(b => b.hidden = clean);
 }
@@ -1008,20 +779,12 @@ document.getElementById("cfAreas").addEventListener("click", e => {
   state.area = b.dataset.areaF; render();
   document.getElementById("catalog").scrollIntoView({ block: "start" });
 });
-document.querySelectorAll("[data-plan-select]").forEach(x => x.addEventListener("change", e => { state.plan = e.target.value; render(); }));
 document.querySelectorAll("[data-area-select]").forEach(x => x.addEventListener("change", e => { state.area = e.target.value; render(); document.getElementById("catalog").scrollIntoView({ block: "start" }); }));
-const clearAll = () => { state.area = "all"; state.plan = "all"; state.q = ""; inputs.forEach(i => i.value = ""); render(); };
+const clearAll = () => { state.area = "all"; state.q = ""; inputs.forEach(i => i.value = ""); render(); };
 document.querySelectorAll("[data-clear]").forEach(b => b.addEventListener("click", clearAll));
-document.getElementById("cfClear").addEventListener("click", () => { state.area = "all"; state.plan = "all"; state.q = ""; inputs.forEach(i => i.value = ""); render(); });
+document.getElementById("cfClear").addEventListener("click", () => { state.area = "all"; state.q = ""; inputs.forEach(i => i.value = ""); render(); });
 
 /* ---------------- controls ---------------- */
-document.querySelectorAll("[data-plans]").forEach(g => {
-  g.innerHTML = PLANS.map(p => `<button class="pill text-sm medium" type="button" data-plan="${p.id}" aria-pressed="false">${p.label}</button>`).join("");
-  g.addEventListener("click", e => {
-    const b = e.target.closest(".pill"); if (!b) return;
-    state.plan = b.dataset.plan; render();
-  });
-});
 const inputs = [...document.querySelectorAll("[data-search] input")];
 let qt;
 inputs.forEach(inp => {
@@ -1032,7 +795,7 @@ inputs.forEach(inp => {
   // keyboard (Enter, Esc, arrows, Tab completion) lives in the search suggestions module
 });
 document.querySelectorAll(".search__clear").forEach(b => b.addEventListener("click", () => { inputs.forEach(i => i.value = ""); state.q = ""; render(); inputs[1].focus(); }));
-document.getElementById("reset").addEventListener("click", () => { inputs.forEach(i => i.value = ""); state.q = ""; state.plan = "all"; state.area = "all"; render(); });
+document.getElementById("reset").addEventListener("click", () => { inputs.forEach(i => i.value = ""); state.q = ""; state.area = "all"; render(); });
 addEventListener("keydown", e => {
   if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
     e.preventDefault();
@@ -1054,19 +817,10 @@ new IntersectionObserver(([e]) => {
 /* ---------------- detail sheet ---------------- */
 const sheet = document.getElementById("sheet"), scrim = document.getElementById("scrim"), body = document.getElementById("sheetBody");
 let cur = null, seq = [], lastFocus = null;
-const VAL = {
-  yes: () => `<span class="v">${icon("circleCheck", "ico-16 ok")}Included</span>`,
-  limited: () => `<span class="v">Limited</span>`,
-  trial: () => `<span class="v">Trial</span>`,
-  addon: () => `<span class="v">Add-on</span>`,
-  no: () => `<span class="v no">Not included</span>`,
-  unknown: () => `<span class="v no">To be announced</span>`,
-};
-function limitText(l) { if (!l) return ""; const v = l.value === "unlimited" ? "Unlimited" : l.value; return `${v} ${l.unit || ""}${l.per ? " per " + l.per : ""}`.trim(); }
 function openFeature(id, from) {
   const f = byId.get(id); if (!f) return;
   cur = f;
-  const pool = f.status === "coming_soon" ? soon : visible.length ? visible : live;
+  const pool = visible.length ? visible : live;
   seq = pool.filter(x => x.category === f.category);
   if (!seq.includes(f)) seq = [f];
   const c = catById.get(f.category);
@@ -1080,7 +834,7 @@ function openFeature(id, from) {
 
   const parent = f.parent && byId.get(f.parent);
   const kids = (children.get(f.id) || []);
-  const badge = f.status === "coming_soon" ? `<span class="tag tag--accent">Coming soon</span>` : f.status === "beta" ? `<span class="tag tag--accent">Beta</span>` : f.status === "new" ? `<span class="tag tag--accent">New</span>` : "";
+  const badge = f.status === "beta" ? `<span class="tag tag--accent">Beta</span>` : f.status === "new" ? `<span class="tag tag--accent">New</span>` : "";
   let h = `<header class="fs__head">
       <span class="fs__icon">${icon(f.icon_resolved)}</span>
       <div class="block">
@@ -1094,36 +848,6 @@ function openFeature(id, from) {
     </header>`;
   if (f.summary) h += `<p class="text-md fs__summary">${esc(f.summary)}</p>`;
 
-  // availability
-  if (f.status === "coming_soon") {
-    const st = STATES.find(x => x.id === f.coming_soon.state);
-    h += `<section class="fs__card">
-      <div class="fs__card-head"><b class="text-md semibold">In the works</b><span class="text-sm">Plans and availability will be announced at launch.</span></div>
-      <div class="fs__status product"><span class="st st--${st.id}"><span class="dot"></span>${st.label}</span><span>Last activity ${fmtDate(f.coming_soon.last_activity)}</span></div>
-    </section>`;
-  } else {
-    const STATE = { yes: "Included", limited: "Limited", trial: "Trial", addon: "Add-on", no: "—", unknown: "—" };
-    const firstYes = LADDER.find(p => f.plan_values[p] === "yes");
-    const list = ps => ps.map(p => PLAN_NAME[p]).join(", ").replace(/, ([^,]*)$/, " and $1");
-    const title = !firstYes ? (LADDER.some(p => ["limited", "trial", "addon"].includes(f.plan_values[p])) ? "Available with limits" : "Not on standard plans")
-      : firstYes === "free" && LADDER.every(p => f.plan_values[p] === "yes") ? "Included on every plan"
-      : `Included from ${PLAN_NAME[firstYes]}`;
-    const partial = LADDER.filter(p => ["limited", "trial", "addon"].includes(f.plan_values[p]))
-      .map(p => { const lim = limitText(f.limits && f.limits[p]); return `${STATE[f.plan_values[p]]} on ${PLAN_NAME[p]}${lim ? ` (${lim})` : ""}`; });
-    const yes = LADDER.filter(p => f.plan_values[p] === "yes");
-    const sub = (firstYes ? (yes.length === 1 ? `${PLAN_NAME[yes[0]]} only.` : `${list(yes)}.`) : f.plan_values.max === "yes" ? "Available on Max." : "")
-      + (partial.length ? ` ${partial.join(". ")}.` : "");
-    h += `<section class="fs__card">
-      <div class="fs__card-head"><b class="text-md semibold">${title}</b><span class="text-sm">${sub}</span></div>
-      <div class="ladder">${LADDER.map(p => {
-        const v = f.plan_values[p] || "unknown";
-        const lim = limitText(f.limits && f.limits[p]);
-        return `<div class="ladder__step is-${v}${state.plan === p ? " is-cur" : ""}"><i></i><span class="text-xs medium">${PLAN_NAME[p]}</span><span class="text-xs ladder__v">${STATE[v] || "—"}</span>${lim ? `<span class="text-xs ladder__lim">${esc(lim)}</span>` : ""}</div>`;
-      }).join("")}</div>
-      ${(f.plan_values.core === "yes" || f.plan_values.max === "yes") ? `<p class="text-xs fs__extra">Also on ${[f.plan_values.core === "yes" && "Core", f.plan_values.max === "yes" && "Max"].filter(Boolean).join(" and ")}.</p>` : ""}
-    </section>`;
-  }
-
   // details
   h += `<section class="sec"><div class="eyebrow-separator">Details</div><dl class="facts">
       <div><dt class="text-sm">Where</dt><dd class="text-sm medium">${esc(f.surface)}</dd></div>
@@ -1135,12 +859,12 @@ function openFeature(id, from) {
   if (kids.length) h += `<section class="sec"><div class="eyebrow-separator">Sub-features · ${kids.length}</div><div class="fs__list">${kids.map(k => `<button type="button" data-open="${k.id}">
       <span class="fs__list-ico">${icon(k.icon_resolved, "ico-16")}</span>
       <span class="fs__list-txt"><b class="text-sm medium">${esc(k.feature)}</b><span class="text-xs">${esc(k.description)}</span></span>
-      ${minPlan(k) && minPlan(k) !== minPlan(f) ? `<span class="tag">${minPlan(k)}</span>` : ""}${icon("chevronRight", "ico-16 chev")}</button>`).join("")}</div></section>`;
+      ${icon("chevronRight", "ico-16 chev")}</button>`).join("")}</div></section>`;
   if (f.tags && f.tags.length) h += `<section class="sec"><div class="eyebrow-separator">Also known as</div><div class="sheet__tags fs__tags">${[...new Set(f.tags.map(t => t.toLowerCase()))].map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div></section>`;
 
   const foot = document.getElementById("sheetFoot");
-  foot.innerHTML = `${f.link ? `<a class="btn btn--sm button-sm" href="${esc(f.link)}" target="_blank" rel="noopener">Learn more</a>` : ""}${f.docs_url ? `<a class="btn ${f.link ? "btn--secondary" : ""} btn--sm button-sm" href="${esc(f.docs_url)}" target="_blank" rel="noopener">Help Center article${icon("arrowUpRight", "ico-16")}</a>` : ""}
-    <button class="btn btn--secondary btn--sm button-sm fs__copy" type="button" id="copyLink">${icon("link", "ico-16")}<span>Copy link</span></button>`;
+  // primary: sign up; secondary: the landing page; tertiary: the Help Center article (each only when it exists)
+  foot.innerHTML = `<a class="btn btn--sm button-sm" href="https://app.clickup.com/signup">Get started</a>${f.link ? `<a class="btn btn--secondary btn--sm button-sm" href="${esc(f.link)}" target="_blank" rel="noopener">Learn more</a>` : ""}${f.docs_url ? `<a class="fs__help text-sm medium" href="${esc(f.docs_url)}" target="_blank" rel="noopener">Help Center${icon("arrowUpRight", "ico-16")}</a>` : ""}`;
   body.innerHTML = h;
   body.scrollTop = 0;
 
@@ -1162,13 +886,6 @@ document.addEventListener("click", e => { const b = e.target.closest("[data-open
 scrim.addEventListener("click", closeSheet);
 sheet.addEventListener("click", e => {
   if (e.target.closest("[data-close]")) closeSheet();
-  const b = e.target.closest("#copyLink");
-  if (b) {
-    navigator.clipboard?.writeText(location.href).then(() => {
-      b.querySelector("span").textContent = "Copied";
-      setTimeout(() => { if (b.isConnected) b.querySelector("span").textContent = "Copy link"; }, 1600);
-    });
-  }
 });
 document.getElementById("sheetClose").addEventListener("click", closeSheet);
 document.getElementById("sheetPrev").addEventListener("click", () => { const i = seq.indexOf(cur); if (i > 0) openFeature(seq[i - 1].id); });
@@ -1185,28 +902,6 @@ addEventListener("keydown", e => {
     else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
   }
 });
-
-/* ---------------- CTA typer ---------------- */
-(function typer() {
-  const el = document.getElementById("typer");
-  const lines = [
-    "Build a client onboarding tracker with a checklist per account and a weekly digest.",
-    "Make a sprint retro board that groups feedback by theme and votes on actions.",
-    "Create a hiring dashboard that pulls candidates from my recruiting List.",
-  ];
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = lines[0]; return; }
-  let li = 0, ci = 0, del = false;
-  const tick = () => {
-    const s = lines[li];
-    ci += del ? -1 : 1;
-    el.innerHTML = esc(s.slice(0, ci)) + '<span class="caret"></span>';
-    let t = del ? 18 : 38;
-    if (!del && ci === s.length) { del = true; t = 2200; }
-    else if (del && ci === 0) { del = false; li = (li + 1) % lines.length; t = 400; }
-    setTimeout(tick, t);
-  };
-  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); tick(); } }).observe(el);
-})();
 
 /* ---------------- boot ---------------- */
 buildCats();

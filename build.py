@@ -1,8 +1,10 @@
 """Build index.html from src/template.html + data/ + assets/.
 
+Data: data/rollup.json (the landing features dataset; `--fetch` refreshes it).
+
 Dev build by default (includes React Grab + live reload client). Pass --prod to leave it out.
 """
-import json, re, sys, urllib.parse
+import base64, json, re, sys, urllib.parse
 from pathlib import Path
 
 R = Path(__file__).parent
@@ -14,11 +16,25 @@ LIVERELOAD = """<script>(() => {
   es.onmessage = e => { if (v === null) v = e.data; else if (e.data !== v) location.reload(); };
 })();</script>"""
 DEVTOOLS = "" if PROD else '<script src="https://unpkg.com/react-grab@0.2.0/dist/index.global.js" crossorigin="anonymous"></script>' + LIVERELOAD
-cats = json.loads((R / "data/categories.json").read_text())
-feats = json.loads((R / "data/features.json").read_text())
+ROLLUP_URL = "https://staging-landing.clickup.com/_edge/v1/datasets/features/rollup"
+if "--fetch" in sys.argv:  # refresh data/rollup.json from the landing dataset
+    import urllib.request
+    with urllib.request.urlopen(ROLLUP_URL, timeout=60) as r:
+        (R / "data/rollup.json").write_bytes(r.read())
+rollup = json.loads((R / "data/rollup.json").read_text())
+cats, feats = rollup["categories"], rollup["features"]
+# the dataset has no per-feature icon: reuse the ones from the original page, else the category icon
+ICONS = json.loads((R / "data/feature-icons.json").read_text())
+cat_icon = {c["id"]: c["icon"] for c in cats}
+for f in feats:
+    f["icon_resolved"] = ICONS.get(f["id"]) or cat_icon[f["category"]]
+# off the page for now: pricing and plans (that category, paid add-ons and every plan field), and unreleased features
+HIDDEN = {"billing-and-plans"}
+cats = [c for c in cats if c["id"] not in HIDDEN]
+feats = [f for f in feats if f["category"] not in HIDDEN and f["status"] != "coming_soon" and "pricing" not in [t.lower() for t in f.get("tags") or []]]
 
-KEEP = ["id", "category", "surface", "feature", "description", "plans", "plan_values", "icon_resolved",
-        "status", "docs_url", "link", "parent", "tags", "limits", "summary", "coming_soon"]
+KEEP = ["id", "category", "surface", "feature", "description", "icon_resolved",
+        "status", "docs_url", "link", "parent", "tags", "summary"]
 slim = [{k: f[k] for k in KEEP if k in f} for f in feats]
 
 # icon sprite: only the symbols the page references
@@ -49,11 +65,12 @@ for k, v in {
     "__SPRITE__": sprite_out,
     "__LOGO__": (R / "assets/clickup-logo.svg").read_text().strip(),
     "__MARKER__": marker_uri,
+    "__CTAIMG__": "data:image/webp;base64," + base64.b64encode((R / "assets/cta-app.webp").read_bytes()).decode(),
     "__CATS__": json.dumps(cats, separators=(",", ":")),
     "__FEATURES__": json.dumps(slim, separators=(",", ":")).replace("</", "<\\/"),
     "__TOTAL__": str(len(live)),
     "__SOON__": str(len(feats) - len(live)),
-    "__AREAS__": {15: "Fifteen"}.get(len({c["area"]["id"] for c in cats}), str(len({c["area"]["id"] for c in cats}))),
+    "__AREAS__": {12: "Twelve", 13: "Thirteen", 14: "Fourteen", 15: "Fifteen", 16: "Sixteen"}.get(len({c["area"]["id"] for c in cats}), str(len({c["area"]["id"] for c in cats}))),
 }.items():
     out = out.replace(k, v)
 (R / "index.html").write_text(out)

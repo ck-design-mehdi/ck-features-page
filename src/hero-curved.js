@@ -75,15 +75,15 @@ let cylUpdate = null;
   host.addEventListener("pointerleave", () => { paused = false; });
   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { layout(); frame(0); }, 150); });
 
-  // search + plan filters light up the matching features in the stream
+  // search lights up the matching features in the stream
   cylUpdate = () => {
     const ql = state.q.toLowerCase();
-    const filtering = !!ql || state.plan !== "all";
+    const filtering = !!ql;
     host.classList.toggle("is-filtering", filtering);
     if (!filtering) return;
     rows.forEach(r => r.chips.forEach(c => {
       const f = byId.get(c.el.dataset.open);
-      c.el.classList.toggle("is-hit", (state.plan === "all" || f.plans.includes(state.plan)) && (!ql || f._hay.includes(ql)));
+      c.el.classList.toggle("is-hit", f._hay.includes(ql));
     }));
   };
 })();

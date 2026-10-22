@@ -22,15 +22,13 @@
   function search(raw) {
     const q = raw.trim().toLowerCase();
     if (!q) return null;
-    const inPlan = f => state.plan === "all" || f.plans.includes(state.plan);
-    const ranked = live.filter(inPlan).map(f => [score(f, q), f]).filter(x => x[0] >= 0)
+    const ranked = live.map(f => [score(f, q), f]).filter(x => x[0] >= 0)
       .sort((a, b) => a[0] - b[0] || a[1].feature.length - b[1].feature.length)
       .map(x => x[1]);
     const cats = CATS.filter(c => c.name.toLowerCase().includes(q) || words(c.name).some(w => w.startsWith(q))).slice(0, 3);
-    const upcoming = state.plan === "all" ? soon.map(f => [score(f, q), f]).filter(x => x[0] >= 0 && x[0] <= 3).sort((a, b) => a[0] - b[0]).map(x => x[1]).slice(0, 2) : [];
     // inline completion: the best name that starts with what was typed
     const cand = [...ranked.slice(0, 40), ...cats.map(c => ({ feature: c.name }))].map(x => x.feature).find(n => n.toLowerCase().startsWith(q) && n.length > q.length);
-    return { q, ranked, cats, upcoming, completion: cand ? cand.slice(raw.trimStart().length) : "" };
+    return { q, ranked, cats, completion: cand ? cand.slice(raw.trimStart().length) : "" };
   }
 
   document.querySelectorAll("[data-search]").forEach((label, k) => {
@@ -79,25 +77,20 @@
       const feats = res.ranked.slice(0, 6);
       if (feats.length) {
         h += `<div class="sg__label text-xs medium">Features</div>`;
-        h += feats.map(f => { items.push({ t: "f", id: f.id }); const p = minPlan(f);
-          return row(items.length - 1, icon(f.icon_resolved), hl(f.feature, raw), `${esc(catById.get(f.category).name)} · ${esc(f.surface)}`, p ? `<span class="tag">${p}</span>` : "", f.category); }).join("");
+        h += feats.map(f => { items.push({ t: "f", id: f.id });
+          return row(items.length - 1, icon(f.icon_resolved), hl(f.feature, raw), `${esc(catById.get(f.category).name)} · ${esc(f.surface)}`, "", f.category); }).join("");
       }
       if (res.cats.length) {
         h += `<div class="sg__label text-xs medium">Categories</div>`;
-        h += res.cats.map(c => { items.push({ t: "c", id: c.id }); const n = live.filter(f => f.category === c.id && (state.plan === "all" || f.plans.includes(state.plan))).length;
+        h += res.cats.map(c => { items.push({ t: "c", id: c.id }); const n = live.filter(f => f.category === c.id).length;
           return row(items.length - 1, icon(c.icon), hl(c.name, raw), `${esc(c.area.name)} · ${n} ${n === 1 ? "feature" : "features"}`, "", c.id); }).join("");
-      }
-      if (res.upcoming.length) {
-        h += `<div class="sg__label text-xs medium">Coming soon</div>`;
-        h += res.upcoming.map(f => { items.push({ t: "f", id: f.id });
-          return row(items.length - 1, icon(f.icon_resolved), hl(f.feature, raw), esc(catById.get(f.category).name), `<span class="tag tag--accent">Soon</span>`, f.category); }).join("");
       }
       if (res.ranked.length) {
         items.push({ t: "all" });
         h += `<button class="sg__row sg__all" type="button" role="option" id="${box.id}-${items.length - 1}" data-i="${items.length - 1}" aria-selected="false" tabindex="-1">
           <span class="text-sm medium">See all ${res.ranked.length} results for “${esc(raw)}”</span><span class="sg__end">${icon("arrowRight", "ico-16")}</span></button>`;
       }
-      if (!items.length) h = `<div class="sg__empty text-sm">No feature matches “${esc(raw)}”. Try another word, or <a href="#build">build it with Brain</a>.</div>`;
+      if (!items.length) h = `<div class="sg__empty text-sm">No feature matches “${esc(raw)}”. Try another word.</div>`;
       else h = `<div class="sg__hint text-xs"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>↵</kbd> to open</span>${res.completion ? `<span><kbd>Tab</kbd> to complete</span>` : ""}<span><kbd>esc</kbd> to close</span></div>` + h;
       box.innerHTML = h;
       open(true);
@@ -143,7 +136,5 @@
     box.addEventListener("click", e => { const r = e.target.closest(".sg__row"); if (r) go(+r.dataset.i); });
     input.addEventListener("blur", () => setTimeout(() => { if (document.activeElement !== input) { open(false); setGhost(); } }, 120));
     addEventListener("resize", () => box.classList.contains("is-open") && place());
-    // the plan filter changes what can be suggested
-    document.querySelectorAll("[data-plans]").forEach(g => g.addEventListener("click", () => document.activeElement === input && setTimeout(paint)));
   });
 })();
