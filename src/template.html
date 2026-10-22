@@ -46,6 +46,7 @@ input { font: inherit; color: inherit; }
 /* Hero */
 .hero { padding-top: 96px; }
 .hero h1 { max-width: 980px; }
+.hero .subtitle { max-width: 660px; text-wrap: balance; }
 .search {
   width: min(600px, 100%); display: flex; align-items: center; gap: 12px; padding: 0 8px 0 18px; height: 56px;
   background: #FFFFFF; border-radius: 16px; box-shadow: var(--shadow-component); color: var(--gray-500);
@@ -60,6 +61,34 @@ input { font: inherit; color: inherit; }
 .search.has-value .search__clear { display: inline-flex; }
 .search.has-value .kbd { display: none; }
 .hero__tools { display: flex; flex-direction: column; align-items: center; gap: 24px; width: 100%; }
+.hero__cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
+.hero__cta .btn { padding: 18px 24px; }
+.hero__cta .ico { width: 20px; height: 20px; }
+.reviews { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin-top: -8px; color: var(--gray-700); }
+.reviews img { display: block; width: 97px; height: auto; }
+.reviews__sites svg { display: block; }
+
+/* Logos: one row under the hero, gray monochrome */
+.logos { padding: 0 64px; }
+.logos__inner { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 64px; max-width: 1120px; margin: 0 auto; }
+.logos__label { color: var(--gray-500); }
+/* equal cells, each logo centered in its own: the gaps stay even whatever the logo widths */
+.logos__list { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: center; gap: 24px; margin: 0; padding: 0; list-style: none; }
+.logos__list li { display: flex; justify-content: center; align-items: center; height: 32px; }
+/* the logos swap set every 4s, one after the other: blur + scale out, then in (same timing as clickup.com) */
+.logos__list li.is-out { animation: logo-out 200ms ease-in calc(var(--i) * 50ms) both; }
+.logos__list li.is-in { animation: logo-in 200ms ease-out calc(var(--i) * 50ms) both; }
+@keyframes logo-out { to { opacity: 0; filter: blur(5px); transform: scale(.8); } }
+@keyframes logo-in { from { opacity: 0; filter: blur(5px); transform: scale(.8); } }
+.logos__list svg { display: block; max-width: 100%; height: auto; }
+/* gray until hovered, then the brand colors */
+.logos__list svg { filter: grayscale(1); opacity: .7; transition: filter 300ms var(--ease-out), opacity 300ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .logos__list li:hover svg { filter: none; opacity: 1; } }
+@media (max-width: 1080px) {
+  .logos__inner { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 32px; }
+  .logos__list { width: 100%; max-width: 640px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 24px; }
+}
+@media (max-width: 560px) { .logos { padding: 0 16px; } .hero__cta { width: 100%; } .hero__cta .btn { flex: 1 1 100%; justify-content: center; } }
 
 /* pills */
 .pill {
@@ -463,8 +492,8 @@ __SPRITE__
     <div class="section__inner">
       <header class="section__header block">
         <div class="block__text">
-          <h1 class="display-3xl"><span class="t-dark">All the features,</span><br><span class="display-gradient">without all the mess.</span></h1>
-          <p class="text-lg subtitle">Choose what you want and hide everything else.</p>
+          <h1 class="display-3xl"><span class="t-dark">All the features,</span><br><span class="display-gradient">one platform.</span></h1>
+          <p class="text-lg subtitle">ClickUp packs more features than any other work management platform — experience the power of The Everything App for work.</p>
         </div>
         <div class="hero__tools" id="heroTools">
           <label class="search" data-search>
@@ -474,10 +503,27 @@ __SPRITE__
             <button class="search__clear" type="button" aria-label="Clear search"><svg class="ico-16"><use href="#cu3-icon-closeSmall"/></svg></button>
             <span class="kbd text-xs medium" aria-hidden="true">⌘K</span>
           </label>
+          <div class="hero__cta">
+            <a class="btn button-lg" href="https://app.clickup.com/signup">Get started. It's FREE<svg class="ico" aria-hidden="true"><use href="#cu3-icon-arrowRight"/></svg></a>
+            <a class="btn btn--secondary button-lg" href="https://clickup.com/demo">Get a demo</a>
+          </div>
+          <div class="reviews text-xs">
+            <img src="__STARS__" alt="4.6 stars" width="97" height="20">
+            <span>25,000+ reviews from</span>
+            <span class="reviews__sites" role="img" aria-label="G2, Capterra, GetApp, Software Advice and Product Hunt">__REVIEWSITES__</span>
+          </div>
         </div>
       </header>
 
 
+    </div>
+  </section>
+
+  <!-- Logos --------------------------------------------------------- -->
+  <section class="logos" aria-label="Trusted by the best">
+    <div class="logos__inner">
+      <span class="mono-sm logos__label">Trusted by the best</span>
+      <ul class="logos__list">__LOGOS__</ul>
     </div>
   </section>
 
@@ -803,6 +849,28 @@ addEventListener("keydown", e => {
     (tb.classList.contains("is-on") ? tb.querySelector("input") : document.getElementById("q")).focus();
   }
 });
+
+/* customer logos: swap to the next set every 4s, only while the strip is on screen */
+(function logoSets() {
+  const list = document.querySelector(".logos__list");
+  const sets = [...list.querySelectorAll("template[data-logo-set]")].map(t => [...t.content.children]);
+  const items = [...list.children].filter(el => el.tagName === "LI");
+  if (sets.length < 2 || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let cur = 0, timer = 0, onScreen = false, busy = false;
+  const STEP = 200 + (items.length - 1) * 50; // one item's animation + the stagger of the others
+  function swap() {
+    busy = true;
+    items.forEach(li => { li.classList.remove("is-in"); li.classList.add("is-out"); });
+    setTimeout(() => {
+      cur = (cur + 1) % sets.length;
+      items.forEach((li, k) => { li.replaceChildren(sets[cur][k].cloneNode(true)); li.classList.remove("is-out"); li.classList.add("is-in"); });
+      setTimeout(() => { busy = false; schedule(); }, STEP);
+    }, STEP);
+  }
+  function schedule() { clearTimeout(timer); if (!busy && onScreen && !document.hidden) timer = setTimeout(swap, 4000); }
+  new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; onScreen ? schedule() : clearTimeout(timer); }).observe(list);
+  document.addEventListener("visibilitychange", () => document.hidden ? clearTimeout(timer) : schedule());
+})();
 
 /* nav border + sticky toolbar once the hero tools leave the screen */
 const nav = document.getElementById("nav"), toolbar = document.getElementById("toolbar");

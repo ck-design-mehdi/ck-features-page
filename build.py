@@ -54,6 +54,15 @@ marker = (R / "assets/grid-marker.svg").read_text().strip()
 marker_uri = "data:image/svg+xml," + urllib.parse.quote(marker, safe=" =:/;,'")
 
 live = [f for f in feats if f["status"] != "coming_soon"]
+# customer logos under the hero (from clickup.com/features): two sets of six, swapped in turn, in color, grayed out by CSS until hovered
+LOGO_SETS = [
+    [("amazon", "Amazon"), ("nvidia", "NVIDIA"), ("wayfair", "Wayfair"), ("verizon", "Verizon"), ("spotify", "Spotify"), ("stanford", "Stanford")],
+    [("kraft-heinz", "Kraft Heinz"), ("deloitte", "Deloitte"), ("pfizer", "Pfizer"), ("adobe", "Adobe"), ("american-airlines", "American Airlines"), ("nbcuniversal", "NBCUniversal")],
+]
+def logo(f, n):
+    return (R / f"assets/logos/{f}.svg").read_text().strip().replace("<svg ", '<svg role="img" aria-label="' + n + '" ', 1)
+LOGOS = "".join(f'<li style="--i:{k}">{logo(*x)}</li>' for k, x in enumerate(LOGO_SETS[0]))
+LOGOS += "".join("<template data-logo-set>" + "".join(logo(*x) for x in s) + "</template>" for s in LOGO_SETS)
 out = (R / "src/template.html").read_text()
 for k, v in {
     "__DEVTOOLS__": DEVTOOLS,
@@ -65,6 +74,9 @@ for k, v in {
     "__SPRITE__": sprite_out,
     "__LOGO__": (R / "assets/clickup-logo.svg").read_text().strip(),
     "__MARKER__": marker_uri,
+    "__STARS__": "data:image/png;base64," + base64.b64encode((R / "assets/stars.png").read_bytes()).decode(),
+    "__REVIEWSITES__": (R / "assets/review-sites.svg").read_text().strip(),
+    "__LOGOS__": LOGOS,
     "__CTAIMG__": "data:image/webp;base64," + base64.b64encode((R / "assets/cta-app.webp").read_bytes()).decode(),
     "__CATS__": json.dumps(cats, separators=(",", ":")),
     "__FEATURES__": json.dumps(slim, separators=(",", ":")).replace("</", "<\\/"),
